@@ -1,0 +1,23 @@
+name: zabbix-agent
+version: "2.0"
+commit_hash: 172d69f
+uncommitted_changes: false
+jobs:
+- name: zabbix_agentd
+  version: ec1d5be3838e833e589ef61c745071ae0859e2fa57844607dafc0a4038b848a2
+  fingerprint: ec1d5be3838e833e589ef61c745071ae0859e2fa57844607dafc0a4038b848a2
+  sha1: sha256:6676b52ecd161b424490555740dccce5e5b0321a46b7748bdae74d3b74c290fa
+  packages:
+  - zabbix_agentd_4.4.0
+packages:
+- name: pcre_8.43
+  version: 7e35cb65abcec3a7d9ba46125623eb307472fe1f6c6574a83f02a291ccc039c5
+  fingerprint: 7e35cb65abcec3a7d9ba46125623eb307472fe1f6c6574a83f02a291ccc039c5
+  sha1: sha256:0ace5b49df16e8e03278aa805d73999e3752b8803d78b2e7fe90a8caf33f0623
+  dependencies: []
+- name: zabbix_agentd_4.4.0
+  version: ed804c4eef4839c7b2448d4c3063ebb1be4a8bf60734e5ce1e0d0ead2d94b204
+  fingerprint: ed804c4eef4839c7b2448d4c3063ebb1be4a8bf60734e5ce1e0d0ead2d94b204
+  sha1: sha256:f78e57530ba1d0f8e848d85cbac04a2ba532125b8e2f433ba3ff0257186b6f72
+  dependencies:
+  - pcre_8.43

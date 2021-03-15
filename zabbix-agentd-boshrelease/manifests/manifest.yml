@@ -1,0 +1,31 @@
+---
+name: zabbix-agent
+
+releases:
+- {name: zabbix-agent, version: latest}
+
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 3
+  canary_watch_time: 15000-30000
+  update_watch_time: 15000-300000
+
+instance_groups:
+- name: zabbix-agent
+  instances: 1
+  azs: [pivotal-az]
+  jobs:
+  - name: zabbix_agentd
+    release: zabbix-agent
+    properties:
+      zabbix:
+        server_ip: 192.168.0.5
+  vm_type: medium
+  stemcell: default
+  networks:
+  - name: pivotal-network

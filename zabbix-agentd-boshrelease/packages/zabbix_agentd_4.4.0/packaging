@@ -1,0 +1,13 @@
+set -e -x
+
+tar xzf zabbix_4.4.0/zabbix-4.4.0.tar.gz
+pushd zabbix-4.4.0
+  ./configure \
+    --prefix=${BOSH_INSTALL_TARGET} \
+    --enable-agent \
+    --with-libpcre=/var/vcap/packages/pcre_8.43 \
+    --enable-static
+
+  make
+  make install
+popd

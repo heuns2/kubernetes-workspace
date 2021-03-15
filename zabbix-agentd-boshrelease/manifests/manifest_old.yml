@@ -1,0 +1,31 @@
+---
+name: zabbix_agentd
+
+releases:
+- {name: zabbix_agentd, version: latest}
+
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 3
+  canary_watch_time: 15000-30000
+  update_watch_time: 15000-300000
+
+instance_groups:
+- name: zabbix_agentd
+  instances: 1
+  azs: [main]
+  jobs:
+  - name: zabbix_agentd
+    release: zabbix_agentd
+    properties:
+      zabbix:
+        server_ip: 10.9.8.170
+  vm_type: small
+  stemcell: default
+  networks:
+  - name: vmnetwork

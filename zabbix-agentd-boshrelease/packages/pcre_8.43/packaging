@@ -1,0 +1,8 @@
+set -e -x
+tar xzf pcre_8.43/pcre-8.43.tar.gz
+pushd pcre-8.43
+  ./configure --prefix=${BOSH_INSTALL_TARGET}
+
+  make
+  make install
+popd

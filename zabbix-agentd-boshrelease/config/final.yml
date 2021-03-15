@@ -1,0 +1,6 @@
+---
+name: zabbix_agentd
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/zabbix_agentd

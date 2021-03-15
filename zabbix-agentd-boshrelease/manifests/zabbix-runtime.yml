@@ -1,0 +1,14 @@
+addons:
+- name: zabbix-agent
+  include:
+    deployments:
+    - cf-73b5b47b7005f83dcf77
+  jobs:
+  - name: zabbix_agentd
+    release: zabbix-agent
+    properties:
+      zabbix:
+        server_ip: 192.168.0.5
+releases:
+- name: zabbix-agent
+  version: "3.0"
