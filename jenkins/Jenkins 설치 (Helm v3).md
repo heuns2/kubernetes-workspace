@@ -153,7 +153,7 @@ $ kubectl apply -f jenkins-sa.yaml
 ```
 
 
-### 2.5.  Helm Jenkins Chart 설치
+### 2.5.  Helm Jenkins Chart 설치 (실행 명령은 추 후 Upgrade 이력을 남기기위해 sh 파일로 저장)
 
 ```
 $ helm install jenkins jenkinsci/jenkins \
