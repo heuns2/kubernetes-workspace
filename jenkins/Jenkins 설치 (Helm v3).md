@@ -222,4 +222,15 @@ $ kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/s
 xxxxxxxxxxxxxxx
 ```
 
+- Jenkins UI 확인
+
+![jenkins-1][jenkins-1]
+
+[jenkins-1]:./images/jenkins-1.PNG
+
+- Jenkins https 인증서 적용 확인
+
+![jenkins-2][jenkins-2]
+
+[jenkins-2]:./images/jenkins-2.PNG
 
