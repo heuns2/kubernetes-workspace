@@ -41,7 +41,7 @@ $ helm install nexus-repo nexus-repository-manager/ \
 --set persistence.storageClass=gp2
 ```
 
-### 2.2. Nexus Ingress 설정
+### 2.3. Nexus Ingress 설정
 
 -   인증서 적용을 위해 Secret 생성 cert, key 파일은 harbor 설치 시 사용한 인증서 활용
 
