@@ -160,3 +160,14 @@ $ sudo ./install.sh --with-chartmuseum
 ![harbor-1][harbor-1]
 
 [harbor-1]:./images/harbor.PNG
+
+```
+$ docker login harbor.eks.leedh.cloud
+Username: admin
+Password:
+WARNING! Your password will be stored unencrypted in /home/leedh/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+```
