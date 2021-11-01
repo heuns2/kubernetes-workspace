@@ -45,12 +45,18 @@ $ helm upgrade --install gitlab gitlab/ \
 --namespace=gitlab \
 --set global.hosts.domain=eks.leedh.cloud \
 --set gitlab-runner.install=true \
---set global.hosts.externalIP=xxx.xxx.xxx.ap-northeast-1.elb.amazonaws.com \
+--set global.hosts.externalIP=xxx-xxx.ap-northeast-1.elb.amazonaws.com \
 --set certmanager.install=false \
 --set nginx-ingress.enabled=false \
 --set global.ingress.configureCertmanager=false \
 --set global.ingress.tls.secretName=gitlab-tls \
---set global.ingress.annotations."kubernetes\.io/ingress\.class"=nginx
+--set gitlab.gitlab-runner.certsSecretName="gitlab-runner-certs" \
+--set gitlab-runner.certsSecretName="gitlab-runner-certs" \
+--set global.ingress.annotations."kubernetes\.io/ingress\.class"=nginx \
+--set gitlab-runner.runners.cache.cacheShared=true \
+--set gitlab-runner.runners.cache.secretName=gitlab-minio-secret \
+--set gitlab-runner.runners.cache.s3CachePath=runner-cache \
+--set gitlab.gitlab-runner.certsSecretName="gitlab-runner-secret"
 ```
 
 ### 2.3. Gitlab Runner 설정 변경
