@@ -114,6 +114,11 @@ kind: Secret
 type: Opaque
 ```
 
+- 초기 Password GET
+
+```
+$ kubectl -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo
+```
 
 ## 3. Gitlab UI 확인
 
@@ -122,3 +127,6 @@ type: Opaque
 ![gitlab-2][gitlab-2]
 
 [gitlab-2]:./images/gitlab-2.PNG
+
+
+
