@@ -156,7 +156,7 @@ $ kubectl apply -f jenkins-sa.yaml
 ### 2.5.  Helm Jenkins Chart 설치 (실행 명령은 추 후 Upgrade 이력을 남기기위해 sh 파일로 저장)
 
 ```
-$ helm install jenkins jenkinsci/jenkins \
+$ helm install jenkins jenkins/. \
 --namespace=jenkins \
 --set controller.jenkinsUrl=https://xxx.xxx.leedh.cloud\
 --set persistence.storageClass=gp2 \
@@ -233,4 +233,27 @@ xxxxxxxxxxxxxxx
 ![jenkins-2][jenkins-2]
 
 [jenkins-2]:./images/jenkins-2.PNG
+
+### 4. 이슈 사항 확인
+
+### 4.1. Gitlab 연동 시 SSL Certicate (신뢰하는 인증서) 장애가 발생 시 
+
+```
+unable to access 'https://gitlab.eks.leedh.cloud/root/my-test.git/': server certificate verification failed. CAfile: none CRLfile: none
+```
+
+- 아래 설정을 values.yaml에 추가 또는 set
+
+```
+  containerEnv:
+  - name: "GIT_SSL_NO_VERIFY"
+    value: "1"
+    
+  envVars:
+  - name: "GIT_SSL_NO_VERIFY"
+    value: "1"
+```
+
+
+
 
