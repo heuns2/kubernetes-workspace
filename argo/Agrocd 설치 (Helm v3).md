@@ -73,6 +73,12 @@ $ helm install argocd  argo-cd/ \
 
 ### 2.3. Agrocd Ingress 설정
 
+- Https Ingress 용 TLS 인증서 생성
+
+```
+$ kubectl create -n argocd secret tls argocd-tls --key eks.leedh.cloud.key --cert eks.leedh.cloud.crt
+```
+
 - Argo CD runs both a gRPC server (used by the CLI), as well as a HTTP/HTTPS server 용 Ingress 2개를 생성
 - 주의 사항은 Insecure Mode를 활성화 하지 않을 경우 nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"를 명시해줘야 Redirection Loop Error가 발생 하지 않음
 
