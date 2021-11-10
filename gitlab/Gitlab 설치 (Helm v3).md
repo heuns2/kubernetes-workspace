@@ -125,7 +125,7 @@ $ kubectl -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{
 - 인증서 적용을 위해 Secret 생성 cert, key 파일은 harbor 설치 시 사용한 인증서 활용
 
 ```
-$ kubectl create -n gitlab secret tls argocd-tls --key eks.leedh.cloud.key --cert eks.leedh.cloud.crt
+$ kubectl create -n gitlab secret tls gitlab-tls --key xxx.leedh.cloud.key --cert xxx.leedh.cloud.crt
 ```
 
 ```
@@ -136,7 +136,7 @@ metadata:
   namespace: gitlab
 spec:
   rules:
-  - host: gitlab.eks.leedh.cloud
+  - host: xxx.xxx.leedh.cloud
     http:
       paths:
       - backend:
