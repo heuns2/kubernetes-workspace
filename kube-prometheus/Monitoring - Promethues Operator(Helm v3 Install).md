@@ -1,4 +1,4 @@
-# Monitoring - Promethues Operator
+# Monitoring - Promethues Operator (Helm v3 Install)
 
 - Prometheus Operator는 Prometheus 및 관련 Monitoring 구성 요소 의 Kubernetes 기본 배포 및 관리를 제공합니다 . 이 프로젝트의 목적은 Kubernetes 클러스터에 대한 Prometheus 기반 Monitoring 스택의 구성을 단순화하고 자동화가 주 목적으로 하는 프로젝트 입니다.
 - Prometheus Operator CRD 기능을 사용하여 Prometheus 컴포넌트의 중단 없이 Config 설정을 변경 할 수 있습니다.
