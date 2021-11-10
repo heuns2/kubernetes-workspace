@@ -120,6 +120,39 @@ type: Opaque
 $ kubectl -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo
 ```
 
+### 2.4. Gitlab Ingress 설정 (Minio, Registry도 동일한 방안으로 설정)
+
+- 인증서 적용을 위해 Secret 생성 cert, key 파일은 harbor 설치 시 사용한 인증서 활용
+
+```
+$ kubectl create -n gitlab secret tls argocd-tls --key eks.leedh.cloud.key --cert eks.leedh.cloud.crt
+```
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gitlab-webservice-default
+  namespace: gitlab
+spec:
+  rules:
+  - host: gitlab.eks.leedh.cloud
+    http:
+      paths:
+      - backend:
+          service:
+            name: gitlab-webservice-default
+            port:
+              number: 8181
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - gitlab.eks.leedh.cloud
+    secretName: gitlab-tls
+```
+
+
 ## 3. Gitlab UI 확인
 
 - UI 확인
