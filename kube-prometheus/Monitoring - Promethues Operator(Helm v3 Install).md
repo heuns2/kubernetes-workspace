@@ -21,7 +21,7 @@
 $ kubectl create namespace monitoring
 ```
 
-### 1.2. Helm 설정
+### 1.2. Helm 설정 & Helm prometheus-operator 설치
 
 -   Promethues 공식 Helm Repo 추가 & 동기화
 
@@ -34,7 +34,7 @@ $ helm repo update
 - stable 버전의 prometheus-operator Helm 소스 코드 다운로드
 
 ```
-$ helm pull stable/prometheus-operator
+$ helm pull stable/prometheus-operator --untar
 ```
 
 - Promethues Operator를 관리하기 위해 아래 3가지 values.yaml를 분리 함
