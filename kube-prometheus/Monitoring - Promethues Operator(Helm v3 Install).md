@@ -31,10 +31,10 @@ $ helm repo update
 
 ```
 
--   helm pull stable/prometheus-operator
+- stable 버전의 prometheus-operator Helm 소스 코드 다운로드
 
 ```
-$ helm pull gitlab/gitlab --untar
+$ helm pull stable/prometheus-operator
 ```
 
 - Promethues Operator를 관리하기 위해 아래 3가지 values.yaml를 분리 함
