@@ -9,7 +9,7 @@
 
 ```
 $ curl -sLO https://github.com/argoproj/argo-workflows/releases/download/v3.2.3/argo-linux-amd64.gz
-
+  
 # Unzip
 $ gunzip argo-linux-amd64.gz
 
