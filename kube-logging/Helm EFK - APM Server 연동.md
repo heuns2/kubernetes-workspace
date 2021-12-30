@@ -150,7 +150,7 @@ $ kubectl logs elastic-apm-agent -f
 ## 4.  Kibana APM UI 확인
 
 - Kibana APM UI에서 APM Agent가 배포 되어 있는 App을 확인
-- 
+
 ![elastic-apm-2][elastic-apm-2]
 
 [elastic-apm-2]:./images/elastic-apm-2.PNG
