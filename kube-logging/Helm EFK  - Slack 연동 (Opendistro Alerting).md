@@ -2,7 +2,7 @@
 - 본 문서는 Helm v3으로 설치한 Elastics Search를 통하여 특정 Log가 검출 되면 Slack Webhook Endpoint를 통하여 Alert가 발생 하도록 통합 연동을 위한 문서입니다.
 - 예시는 특정 Log에서 ERROR라는 문구가 발생하면 Slack으로 Alert를 발생 시키는 예제 입니다.
 - Kibana에서 Alert를 구성 할 수 있도록 생성 합니다.
-- 방법은 Helm Chart의 Init Container를 통하여 Opendistro Alerting Plugin을 설치하여 Plugin Directory를 Shared하거나 Dockerfile 생성이 있습니다. 본 문서는 Docker Image를 Custom 생성하여 배포 하는 방안입니다.
+- 방법은 Helm Chart의 Init Container를 통하여 Opendistro Alerting Plugin을 설치하여 Kibana, Elastics Search Pod 내부 Plugin Directory를 Shared하거나 Dockerfile 생성이 있습니다. 본 문서는 Docker Image를 Custom 생성하여 배포 하는 방안입니다.
 - Elastic Search, Kibana v7.10.2, Fleuntd가 설치되어 있는 환경에서 진행
 - 참고 링크
 	- [opendistro](https://opendistro.github.io/for-elasticsearch/)
