@@ -44,7 +44,7 @@ $ openssl  genrsa -out ca.key 4096
 - Generate the CA certificate
 
 ```
-$ $ openssl req -x509 -new -nodes -sha512 -days 3650 \
+$ openssl req -x509 -new -nodes -sha512 -days 3650 \
  -subj "/C=CN/ST=leedh/L=leedh/O=leedh/OU=leedh/CN=*.eks.leedh.cloud" \
  -key ca.key \
  -out ca.crt
