@@ -56,8 +56,15 @@ spring.cloud.gateway.routes[0].predicates[0]=Path=/client-service/**
 
 
 ### 3. Result
-- 아래는 Gateway를 통하여 Client App에서 spring-cloud-starter-kubernetes-client-all를 통해 현재 K8S 상에서 배포 된 모든 Service를 GET 한 화면
+- 아래는 Gateway를 통하여 Client App에서 spring-cloud-starter-kubernetes-client-all를 통해 현재 K8S 상에서 배포 된 모든 Service를 조회 한 화면
 
 ![spring-cloud-gateway-for-k8s-1][spring-cloud-gateway-for-k8s-1]
 
 [spring-cloud-gateway-for-k8s-1]:./images/spring-cloud-gateway-for-k8s-1.PNG
+
+- 아래는 Gateway를 통하여 Client App에 요청하여 현재 K8S 상에서 배포 된 Service를 상세 조회한 화면
+
+![spring-cloud-gateway-for-k8s-2][spring-cloud-gateway-for-k8s-2]
+
+[spring-cloud-gateway-for-k8s-2]:./images/spring-cloud-gateway-for-k8s-2.PNG
+
