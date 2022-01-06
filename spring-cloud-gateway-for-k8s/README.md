@@ -1,4 +1,4 @@
-# Spring Cloud Gateway 주요 설정
+# Spring Cloud Gateway 주요 설정 (Kubernetes Service Discovery)
 
 ### 1. Maven Dependency
 - 기본적으로 spring-cloud-starter-kubernetes-client-all를 설정하고 K8S 환경에 배포를 하면 모든 Service, Pod에 대한 Service Discovery 기능이 활성화 되고, Default coreDNS의 cluster.local을 참조하여 내부 DNS를 Query
