@@ -1,0 +1,11 @@
+---
+spring:
+  profiles: cloud1111
+  application:
+    name: test-boot-app
+
+vcap.application.application_id: ${vcap.application.application_id}
+vcap.application.application_name: ${vcap.application.application_name}
+vcap.application.application_uris: ${vcap.application.application_uris}
+vcap.application.cf_api: ${vcap.application.cf_api}
+test: ${test}
