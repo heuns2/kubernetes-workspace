@@ -1,7 +1,7 @@
 # Kubernetes  AWS EFS Storage Class 사용
 
 - 본 문서는 Kubernetes에서 AWS Elastics File System를 Storage Class와 연동하여 동적으로 PVC를 요청하는 방안에 대해서 설명 합니다.
-- 참고 링크: [eks-efs]([https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/efs-csi.html)
+- 참고 링크: [eks-efs](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/efs-csi.html)
 
 ## 1. AWS EFS 사용 관련 Role 설정
 
