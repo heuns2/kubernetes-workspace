@@ -1,0 +1,52 @@
+pipeline {
+    environment {
+        GIT_SSL_NO_VERIFY = 0
+        REGISTRY = "harbor.eks.leedh.cloud"
+        IMAGENAME = "cicd/test-app"
+    }
+  agent {
+    kubernetes {
+      label 'my-test-app-cicd'
+      yamlFile 'cicd-template.yaml'
+    }
+  }
+    stages {
+        stage('Maven Source Code Build') {
+          steps {
+            container('maven') {
+              echo "Check Maven"
+              sh 'mvn -version'
+              echo "Start Maven Build"
+              sh 'mvn clean install'
+              sh 'ls -al ./target'
+            }
+          }
+        }
+        stage('Build Docker Image') {
+          steps {
+            container('docker') {
+              sh 'docker build -t $REGISTRY/$IMAGENAME:$BUILD_NUMBER .'
+              sh 'docker images | grep $IMAGENAME'
+            }
+          }
+        }
+        stage('Push Docker Image Harbor') {
+          steps {
+            container('docker') {
+              sh 'echo $HARBOR_PASSWORD | docker login -u$HARBOR_ID --password-stdin $REGISTRY'
+              sh 'docker push $REGISTRY/$IMAGENAME:$BUILD_NUMBER'
+            }
+          }
+        }
+        stage('Local Docker Image Delete') {
+          steps {
+            container('docker') {
+              sh 'IMAGE=$(docker images | grep $IMAGENAME | grep $BUILD_NUMBER)'
+              sh """
+                  docker images | grep $IMAGENAME | grep $BUILD_NUMBER | awk \'{print \$3}\' | xargs docker rmi -f
+                 """
+            }
+          }
+        }
+    }
+}

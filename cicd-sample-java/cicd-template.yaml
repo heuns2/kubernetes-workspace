@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  app: my-test-cicd
+spec:
+  volumes:
+  - name: docker-sock
+    hostPath:
+      path: "/var/run/docker.sock"
+  containers:
+  - name: maven
+    image: maven:alpine
+    command:
+    - cat
+    tty: true
+  - name: docker
+    image: docker
+    securityContext:
+      privileged: true
+      runAsUser: 0
+    env:
+    - name: HARBOR_ID
+      valueFrom:
+        secretKeyRef:
+          name: harbor-login
+          key: harbor-id
+    - name: HARBOR_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: harbor-login
+          key: harbor-password
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+      - mountPath: /var/run/docker.sock
+        name: docker-sock
+        readOnly: false
