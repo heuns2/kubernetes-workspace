@@ -23,7 +23,7 @@ $ ETCDCTL_API=3 etcdctl member list --endpoints=https://127.0.0.1:2379 \
 --key=/etc/ssl/etcd/ssl/node-ip-10-250-200-180.ap-northeast-1.compute.internal-key.pem
 ```
 
-### 1.1.2. ETCD Member 중 Reader 확인
+### 1.1.3. ETCD Member 중 Reader 확인
 
 - 아래 명령어 수행으로 ETCD Member 중 Reader True 상태를 확인 합니다.
 
