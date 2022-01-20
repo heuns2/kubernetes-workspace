@@ -11,6 +11,7 @@
     - Harbor v2.2.4 (VM)
     - Gitlab v14.4.1(Helm)
     - Argocd v2.1.6(Helm)
+    - Sample Source Code (https://github.com/heuns2/kubernetes-workspace/tree/main/cicd-sample-java)
 
 - Jenkins 주요 Plugin 구성
 	- Kubernetes
