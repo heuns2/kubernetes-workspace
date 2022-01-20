@@ -36,3 +36,9 @@ spec:
       - mountPath: /var/run/docker.sock
         name: docker-sock
         readOnly: false
+
+  - name: deploy
+    image: cloudowski/drone-kustomize
+    command:
+    - cat
+    tty: true
