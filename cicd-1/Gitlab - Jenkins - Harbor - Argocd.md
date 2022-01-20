@@ -1,4 +1,4 @@
-# 3. Gitlab - Jenkins - Harbor - Argocd
+# Gitlab - Jenkins - Harbor - Argocd
 -   본 문서는 아래 절차에 대해서 설명 합니다.
 	- Jenkins Pipeline를 통하여 Gitlab에서 Source Code Clone & Build
 	- Build Image 생성
