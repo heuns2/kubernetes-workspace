@@ -141,3 +141,31 @@ $ kubectl -n argo get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 ![argocd-1][argocd-1]
 
 [argocd-1]:./images/argocd-1.PNG
+
+
+
+## 4. CD를 위한 rollout 설치
+
+- ArgoCD의 Rollout API를 사용하기 위하여 argo-rollouts을 배포 한다.
+
+```
+$ kubectl create namespace argo-rollouts
+$ kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
+```
+
+- ArgoCD의 Rollout 관련 CLI를 사용 할 것이라면, 아래 CLI도 설치 한다.
+
+```
+$ curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
+$ chmod +x ./kubectl-argo-rollouts-linux-amd64
+$ sudo mv ./kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
+
+$ kubectl argo rollouts version
+kubectl-argo-rollouts: v1.1.1+0716c5d
+  BuildDate: 2021-11-29T19:14:05Z
+  GitCommit: 0716c5d4417ec1cc507b24b3a400d07e4bf24303
+  GitTreeState: clean
+  GoVersion: go1.16.3
+  Compiler: gc
+  Platform: linux/amd64
+```
