@@ -2,7 +2,7 @@
 # Docker
 
 ```
-$ mvn clean install
+$ mvn clean install 
 
 $ docker build -t leedh/rolling-test:1.0 .
 $ docker images
