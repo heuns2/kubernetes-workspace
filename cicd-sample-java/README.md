@@ -1,15 +1,98 @@
 
-# Docker
+# 파일구조
 
 ```
-$ mvn clean install 
-
-$ docker build -t leedh/rolling-test:1.0 .
-$ docker images
-REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
-leedh/rolling-test   1.0                 07f92f1d085c        57 seconds ago      131MB
-openjdk              8-jdk-alpine        a3562aa0b991        21 months ago       105MB
-$ docker push leedh/rolling-test:1.0
+.
+├── Dockerfile
+├── Jenkinsfile
+├── README.md
+├── base
+│   ├── deployment-bluegreen.yaml
+│   ├── deployment.yaml
+│   ├── kustomization.yaml
+│   ├── service-bluegreen.yaml
+│   └── service.yaml
+├── cicd-template.yaml
+├── helm-deployment
+│   ├── Chart.yaml
+│   ├── templates
+│   │   ├── configmaps.yaml
+│   │   ├── deployments.yaml
+│   │   ├── ingress.yaml
+│   │   └── service.yaml
+│   └── values.yaml
+├── images
+│   ├── 1
+│   └── micrometer.png
+├── manifest
+│   ├── dev
+│   │   ├── deployment-bluegreen.yaml
+│   │   ├── deployment-patch.yaml
+│   │   ├── kustomization.yaml
+│   │   ├── service-bluegreen.yaml
+│   │   └── service-patch.yaml
+│   └── prod
+│       ├── deployment-patch.yaml
+│       ├── kustomization.yaml
+│       └── service-patch.yaml
+├── mvnw
+├── mvnw.cmd
+├── my-tomcat
+│   └── logs
+│       └── access_log.2022-01-04.log
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── mzc
+│   │   │           └── boot
+│   │   │               └── SimpleBootApplication.java
+│   │   └── resources
+│   │       ├── application-kubernetes.yml
+│   │       ├── application.yml
+│   │       ├── bootstrap.yml
+│   │       ├── elk.yml
+│   │       └── promethues.txt
+│   └── test
+│       └── java
+│           └── com
+│               └── mzc
+│                   └── boot
+│                       └── SimpleBootApplicationTests.java
+└── target
+    ├── classes
+    │   ├── application-kubernetes.yml
+    │   ├── application.yml
+    │   ├── bootstrap.yml
+    │   ├── com
+    │   │   └── mzc
+    │   │       └── boot
+    │   │           └── SimpleBootApplication.class
+    │   ├── elk.yml
+    │   └── promethues.txt
+    ├── generated-sources
+    │   └── annotations
+    ├── generated-test-sources
+    │   └── test-annotations
+    ├── maven-status
+    │   └── maven-compiler-plugin
+    │       ├── compile
+    │       │   └── default-compile
+    │       │       ├── createdFiles.lst
+    │       │       └── inputFiles.lst
+    │       └── testCompile
+    │           └── default-testCompile
+    │               ├── createdFiles.lst
+    │               └── inputFiles.lst
+    ├── surefire-reports
+    │   ├── TEST-com.mzc.boot.SimpleBootApplicationTests.xml
+    │   └── com.mzc.boot.SimpleBootApplicationTests.txt
+    └── test-classes
+        └── com
+            └── mzc
+                └── boot
+                    └── SimpleBootApplicationTests.class
 
 ```
 
