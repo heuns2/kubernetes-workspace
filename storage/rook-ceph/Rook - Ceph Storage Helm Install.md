@@ -45,7 +45,7 @@ nvme0n1
 
 - Ceph Dashboard와 Prometheus Monitoring 지원
 
-- Disaster Recovery에 대한 복구 지원
+- Disaster Recovery
 
 - Ceph Cluster CRD
 	- Ceph Cluster를 Host-based(VM Local Path), PVC-based Cluster(다른 Storage Claass를 이용 ex: aws ebs),  Stretch Cluster(확장 클러스터)로 생성 할 수 있습니다.
