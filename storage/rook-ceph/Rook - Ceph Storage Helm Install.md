@@ -45,7 +45,7 @@ nvme0n1
 
 - Ceph Dashboard와 Prometheus Monitoring 지원
 
-- Disaster Recovery
+- Disaster Recovery에 대한 복구 지원
 
 - Ceph Cluster CRD
 	- Ceph Cluster를 Host-based(VM Local Path), PVC-based Cluster(다른 Storage Claass를 이용 ex: aws ebs),  Stretch Cluster(확장 클러스터)로 생성 할 수 있습니다.
@@ -156,3 +156,42 @@ nvme0n1
 └─nvme0n1p128
 ```
 
+### 1.2.3. Dashboard 확인
+
+- Rook Ceph 관리 Dashboard Ingress 생성
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-mgr-dashboard
+  namespace: rook-ceph
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_ssl_verify off;
+spec:
+  tls:
+   - hosts:
+     - xxx-xxx.xxx.xxx.cloud
+     secretName: ceph-tls
+  rules:
+  - host: xxx-xxx.xxx.xxx.cloud
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rook-ceph-mgr-dashboard
+            port:
+              name: https-dashboard
+```
+
+- Rook Ceph 관리 Dashboard 확인
+
+![rook-ceph-2][rook-ceph-2]
+
+[rook-ceph-2]:./images/rook-ceph-2.PNG
