@@ -147,7 +147,7 @@ gp2 (default)          kubernetes.io/aws-ebs           Delete          WaitForFi
 - Disk 확인
 
 ```
-$ -lsblk -f
+$ lsblk -f
 NAME          FSTYPE      LABEL UUID                                   MOUNTPOINT
 nvme1n1       LVM2_member       SQVIwJ-Q7lB-V5C7-9u2h-ApOm-dRKz-xj6dMW
 └─ceph--aa909013--b9dd--4f21--92d7--7c8e03096946-osd--block--11a998b5--fe04--4c4a--98b9--15076ce51a8f
