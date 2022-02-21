@@ -43,6 +43,10 @@ spec:
         claimName: csi-pod-pvc
 ```
 
+![rook-ceph-bucket-2][rook-ceph-bucket-2]
+
+[rook-ceph-bucket-2]:./images/rook-ceph-bucket-2.PNG
+
 ## 1.2. Object Storage
 
 ### 1.2.1. Object Storage  버킷 생성, Object Put, Get
