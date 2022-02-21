@@ -47,6 +47,18 @@ spec:
 
 [rook-ceph-bucket-2]:./images/rook-ceph-bucket-2.PNG
 
+```
+$ lsblk -f
+NAME          FSTYPE      LABEL UUID                                   MOUNTPOINT
+rbd0          ext4              16032046-aec4-4a0f-a5af-ddc88d2d5391   /var/lib/kubelet/pods/89df32cb-33d1-4320-9189-c93602ea1dbb/volumes/kubernetes.io~csi/pvc-e13d96d9-eb7d-46ad-92ce-649e9cd31fdc
+nvme1n1       LVM2_member       YhwPYx-Y6kb-x3GO-dCVT-hgI9-59wn-chVo44
+└─ceph--c247429f--603f--4840--a81c--821d83459f73-osd--block--48e51954--27fb--4dee--ba0e--c84c9cdc3548
+
+nvme0n1
+├─nvme0n1p1   xfs         /     a2d6f56b-f4f4-4d1a-8df1-9b20ffb3be14   /
+└─nvme0n1p128
+```
+
 ## 1.2. Object Storage
 
 ### 1.2.1. Object Storage  버킷 생성, Object Put, Get
