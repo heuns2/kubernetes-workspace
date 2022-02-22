@@ -1,4 +1,4 @@
-# kuberix-workspace
-kuberix-workspace 자료
+# workspace
+workspace 자료
 
 
