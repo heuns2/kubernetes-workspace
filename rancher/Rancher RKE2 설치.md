@@ -1,7 +1,7 @@
 # 1. Rancher RKE2 설치 (Linux 기준)
 - 문서 작성일 2022-03-17을 기준으로 REK2 설치 가이드이며, Offline 설치를 기준으로 작성
-- Rancher RKE2는 Rancher Kubenetes Engine과 K3(Mircro)의 장점을 결합 한 솔루션 입니다.
-- RKE와는 다르게 ControlPlane 영역을 Docker를 Runtime으로 사용하지 않고 Kubelet에서 관리하는 Runtime Config로 실행 합니다.
+- Rancher RKE2는 Rancher Kubenetes Engine과 K3(Mircro)의 장점을 결합 한 솔루션
+- RKE와는 다르게 ControlPlane 영역을 Docker를 Runtime으로 사용하지 않고 Kubelet에서 관리하는 Runtime Config로 실행
 
 ## Requirements
 
@@ -67,9 +67,10 @@ $ sudo rpm -ivh --replacefiles --replacepkgs *.rpm
 
 - Rancher Server용 Image을 다운로드 하여  모든 Node에 scp
 	- Release Note: https://github.com/rancher/rke2/releases
+	- 주의 사항은 rke2-images.linux-amd64.tar.gz -> tar.gz 
 
 ```
-$ curl curl -OLs https://github.com/rancher/rke2/releases/download/v1.23.4%2Brke2r2/rke2-images.linux-amd64.tar.gz
+$ curl -OLs https://github.com/rancher/rke2/releases/download/v1.23.4%2Brke2r2/rke2-images.linux-amd64.tar.gz
 $ scp -i ~/.ssh/tas.pem rke2-images.linux-amd64.tar.gz centos@10.250.218.xx:~/
 # 대상 서버에 접근
 $ ssh -i ~/.ssh/tas.pem centos@10.250.218.xx
@@ -97,6 +98,12 @@ token: my-shared-secret
 profile: "cis-1.5"
 selinux: true
 EOF
+
+# selinux 설정
+$ sudo cp -f /usr/share/rke2/rke2-cis-sysctl.conf /etc/sysctl.d/60-rke2-cis.conf
+$ sysctl -p /etc/sysctl.d/60-rke2-cis.conf
+$ useradd -r -c "etcd user" -s /sbin/nologin -M etcd
+
 
 # RKE2 Server UP
 $ systemctl enable rke2-server.service
@@ -148,8 +155,76 @@ kube-system   rke2-coredns-rke2-coredns-869b5d56d4-v78sh                        
 kube-system   rke2-coredns-rke2-coredns-autoscaler-5b947fbb77-w7csq                       1/1     Running     0               32m
 ```
 
-- HA 구성을 위한 2~3번 째 Node에서 Config File을 생성하여 Rancher Server를 시작 & 확인
+- HA 구성을 위한 2~3번 째 Node에서 Config File을 생성하여 Rancher Server를 시작 & 확인 (AWS 기준 약 5분 정도 소요)
 
 ```
+# Config 파일 작성
+mkdir -p /etc/rancher/rke2
+cat << EOF >  /etc/rancher/rke2/config.yaml
+write-kubeconfig-mode: "0644"
+server:  https://10.250.218.59:9345 # Control Plane FQDN이 필요 할 수 있음
+token:  K10a8536990ca1c5c0c800fba8df4d7bf7e3e61b34f269b6c138c99af771b774512::server:my-shared-secret # Token 값은 첫번 째 Node의 /var/lib/rancher/rke2/server/node-token 디렉토리 참조
+tls-san:
+  - "rancher.test.leedh"
+  - "10.250.218.59"
+  - "10.250.208.15"
+  - "10.250.208.15"
+profile: "cis-1.5"
+selinux: true
+EOF
 
+# selinux 설정
+$ sudo cp -f /usr/share/rke2/rke2-cis-sysctl.conf /etc/sysctl.d/60-rke2-cis.conf
+$ sysctl -p /etc/sysctl.d/60-rke2-cis.conf
+$ useradd -r -c "etcd user" -s /sbin/nologin -M etcd
+
+# RKE2 Server UP
+$ systemctl enable rke2-server.service
+$ systemctl start rke2-server.service
+$ journalctl -u rke2-server -f
+
+# RKE2 Server 확인
+
+# Node 들 형상 확인
+$ kubectl get nodes
+NAME                                                STATUS   ROLES                       AGE     VERSION
+ip-10-250-208-15.ap-northeast-1.compute.internal    Ready    control-plane,etcd,master   2m18s   v1.23.4+rke2r2
+ip-10-250-218-216.ap-northeast-1.compute.internal   Ready    control-plane,etcd,master   2m27s   v1.23.4+rke2r2
+ip-10-250-218-59.ap-northeast-1.compute.internal    Ready    control-plane,etcd,master   14h     v1.23.4+rke2r2
+
+# Pod 목록 확인
+[root@ip-10-250-218-59 ~]# kubectl get pods -A
+NAMESPACE     NAME                                                                         READY   STATUS      RESTARTS      AGE
+kube-system   cloud-controller-manager-ip-10-250-208-15.ap-northeast-1.compute.internal    1/1     Running     0             2m21s
+kube-system   cloud-controller-manager-ip-10-250-218-216.ap-northeast-1.compute.internal   1/1     Running     0             2m35s
+kube-system   cloud-controller-manager-ip-10-250-218-59.ap-northeast-1.compute.internal    1/1     Running     3 (13h ago)   14h
+kube-system   etcd-ip-10-250-208-15.ap-northeast-1.compute.internal                        1/1     Running     0             2m55s
+kube-system   etcd-ip-10-250-218-216.ap-northeast-1.compute.internal                       1/1     Running     0             2m47s
+kube-system   etcd-ip-10-250-218-59.ap-northeast-1.compute.internal                        1/1     Running     1 (13h ago)   13h
+kube-system   helm-install-rke2-canal-4h766                                                0/1     Completed   0             14h
+kube-system   helm-install-rke2-coredns-kslgl                                              0/1     Completed   0             14h
+kube-system   helm-install-rke2-ingress-nginx-tqtvf                                        0/1     Completed   0             14h
+kube-system   helm-install-rke2-metrics-server-c4gm7                                       0/1     Completed   0             14h
+kube-system   kube-apiserver-ip-10-250-208-15.ap-northeast-1.compute.internal              1/1     Running     0             2m34s
+kube-system   kube-apiserver-ip-10-250-218-216.ap-northeast-1.compute.internal             1/1     Running     0             2m41s
+kube-system   kube-apiserver-ip-10-250-218-59.ap-northeast-1.compute.internal              1/1     Running     1 (13h ago)   13h
+kube-system   kube-controller-manager-ip-10-250-208-15.ap-northeast-1.compute.internal     1/1     Running     0             2m31s
+kube-system   kube-controller-manager-ip-10-250-218-216.ap-northeast-1.compute.internal    1/1     Running     0             2m44s
+kube-system   kube-controller-manager-ip-10-250-218-59.ap-northeast-1.compute.internal     1/1     Running     3 (13h ago)   14h
+kube-system   kube-proxy-ip-10-250-208-15.ap-northeast-1.compute.internal                  1/1     Running     0             2m31s
+kube-system   kube-proxy-ip-10-250-218-216.ap-northeast-1.compute.internal                 1/1     Running     0             3m12s
+kube-system   kube-proxy-ip-10-250-218-59.ap-northeast-1.compute.internal                  1/1     Running     1 (14h ago)   14h
+kube-system   kube-scheduler-ip-10-250-208-15.ap-northeast-1.compute.internal              1/1     Running     0             2m35s
+kube-system   kube-scheduler-ip-10-250-218-216.ap-northeast-1.compute.internal             1/1     Running     0             2m41s
+kube-system   kube-scheduler-ip-10-250-218-59.ap-northeast-1.compute.internal              1/1     Running     2 (13h ago)   14h
+kube-system   rke2-canal-htbq9                                                             2/2     Running     0             3m15s
+kube-system   rke2-canal-hw6hb                                                             2/2     Running     2 (14h ago)   14h
+kube-system   rke2-canal-wkqvh                                                             2/2     Running     0             3m24s
+kube-system   rke2-coredns-rke2-coredns-869b5d56d4-8jjx4                                   1/1     Running     0             3m15s
+kube-system   rke2-coredns-rke2-coredns-869b5d56d4-v78sh                                   1/1     Running     1 (14h ago)   14h
+kube-system   rke2-coredns-rke2-coredns-autoscaler-5b947fbb77-w7csq                        1/1     Running     0             14h
+kube-system   rke2-ingress-nginx-controller-blghm                                          1/1     Running     0             2m33s
+kube-system   rke2-ingress-nginx-controller-fkwcn                                          1/1     Running     0             2m14s
+kube-system   rke2-ingress-nginx-controller-njb6f                                          1/1     Running     0             13h
+kube-system   rke2-metrics-server-6564db4569-4qfvg                                         1/1     Running     0             13h
 ```
