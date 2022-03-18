@@ -67,7 +67,7 @@ $ sudo rpm -ivh --replacefiles --replacepkgs *.rpm
 
 - Rancher Server용 Image을 다운로드 하여  모든 Node에 scp
 	- Release Note: https://github.com/rancher/rke2/releases
-	- 주의 사항은 rke2-images.linux-amd64.tar.gz -> tar.gz 
+	- 주의 사항은 rke2-images.linux-amd64.tar.gz -> tar.gz 반드시 해당 파일 그대로 이동 시켜야 함
 
 ```
 $ curl -OLs https://github.com/rancher/rke2/releases/download/v1.23.4%2Brke2r2/rke2-images.linux-amd64.tar.gz
