@@ -1,4 +1,4 @@
-# 1. Rancher RKE2 설치 (Linux 기준)
+# 1. Offline Rancher RKE2 설치
 - 문서 작성일 2022-03-17을 기준으로 REK2 설치 가이드이며, Offline 설치를 기준으로 작성
 - Rancher RKE2는 Rancher Kubenetes Engine과 K3(Mircro)의 장점을 결합 한 솔루션
 - RKE와는 다르게 ControlPlane 영역을 Docker를 Runtime으로 사용하지 않고 Kubelet에서 관리하는 Runtime Config로 실행
