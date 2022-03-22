@@ -1,5 +1,5 @@
 # 1. Online Rancher RKE2 설치
-- 문서 작성일 2022-03-22을 기준으로 REK2 설치 가이드이며, Online 설치를 기준으로 작성
+- 문서 작성일 2022-03-22을 기준으로 v1.22.7+rke2r1 REK2 설치 가이드이며, Online 설치를 기준으로 작성
 - Rancher RKE2는 Rancher Kubenetes Engine과 K3(Mircro)의 장점을 결합 한 솔루션
 - RKE와는 다르게 ControlPlane 영역을 Docker를 Runtime으로 사용하지 않고 Kubelet에서 관리하는 Runtime Config로 실행
 
@@ -37,10 +37,10 @@
 
 ## 1. Rancher Server Node Install
 
-- 특정 버전 RKE Package Install
+- 모든 Node에 특정 버전 RKE Package Install
 
 ```
-$ curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION=v1.23.4+rke2r1 sh -
+$ curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION=v1.22.7+rke2r1 sh -
 ```
 
 
