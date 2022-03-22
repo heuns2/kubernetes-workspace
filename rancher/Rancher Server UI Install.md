@@ -91,7 +91,7 @@ $ helm upgrade --install \
 --set hostname=rancher.server.prd.leedh.xyz \
 --set replicas=3 \
 --set bootstrapPassword=Changeme123! \
-rancher rancher-stable/rancher \
+rancher rancher-stable/rancher
 ```
 
 ### 2.2. Rancher 설치 확인
