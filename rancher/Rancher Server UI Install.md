@@ -16,8 +16,8 @@ $ ./get_helm.sh
 - Helm Chart 추가
 
 ```
-$ helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
-$ helm search repo rancher-latest/rancher --versions
+$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+$ helm search repo rancher-stable/rancher --versions
 $ helm repo update
 ```
 
@@ -86,7 +86,7 @@ cert-manager-webhook-997b5dd88-nkdp2       1/1     Running   0          19s
 -   [Rancher Helm Chart 옵션](https://rancher.com/docs/rancher/v2.x/en/installation/install-rancher-on-k8s/chart-options/#external-tls-termination)
 
 ```
-$ helm install rancher rancher-latest/rancher \
+$ helm install rancher rancher-stable/rancher \
   --namespace cattle-system \
   --set hostname=rancher-server.prd.leedh.xyz \
   --set replicas=3 \
@@ -103,6 +103,18 @@ Waiting for deployment "rancher" rollout to finish: 0 of 3 updated replicas are 
 Waiting for deployment "rancher" rollout to finish: 1 of 3 updated replicas are available...
 Waiting for deployment "rancher" rollout to finish: 2 of 3 updated replicas are available...
 deployment "rancher" successfully rolled out
+
+$  kubectl get pod -n cattle-system
+NAME                               READY   STATUS      RESTARTS   AGE
+helm-operation-5k5r9               0/2     Evicted     0          20s
+helm-operation-7wnwj               0/2     Completed   0          61s
+helm-operation-7wqff               0/2     Completed   0          35s
+helm-operation-dbq9x               0/2     Completed   0          88s
+helm-operation-kr5v8               0/2     Completed   0          48s
+rancher-69c4f4c9f9-6n8r7           1/1     Running     0          3m35s
+rancher-69c4f4c9f9-ntrtn           1/1     Running     1          3m35s
+rancher-69c4f4c9f9-rhv86           1/1     Running     1          3m35s
+rancher-webhook-6cccfd96b5-9cbbg   1/1     Running     0          29s
 ```
 
 
