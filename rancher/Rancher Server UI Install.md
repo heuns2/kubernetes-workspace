@@ -118,6 +118,14 @@ rancher-69c4f4c9f9-rhv86           1/1     Running     1          3m35s
 rancher-webhook-6cccfd96b5-9cbbg   1/1     Running     0          29s
 ```
 
+- Rancher Server Ingress를 LB에 등록
+
+```
+$ kubectl -n cattle-system get ingress
+NAME      CLASS    HOSTS                          ADDRESS                                        PORTS     AGE
+rancher   <none>   rancher.server.prd.leedh.xyz   10.250.220.251,10.250.221.219,10.250.222.221   80, 443   38m
+```
+
 -   설치 된 Rancher의 UI 형상을 확인
 
 ![rancer-ui-1][rancer-ui-1]
