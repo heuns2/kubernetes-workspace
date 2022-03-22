@@ -88,7 +88,7 @@ cert-manager-webhook-997b5dd88-nkdp2       1/1     Running   0          19s
 ```
 $ helm install rancher rancher-stable/rancher \
   --namespace cattle-system \
-  --set hostname=rancher-server.prd.leedh.xyz \
+  --set hostname=rancher.server.prd.leedh.xyz \
   --set replicas=3 \
   --version 2.6.3
 ```
@@ -118,4 +118,8 @@ rancher-webhook-6cccfd96b5-9cbbg   1/1     Running     0          29s
 ```
 
 
+## 3. Issue
 
+```
+$ kubectl delete MutatingWebhookConfiguration -n cattle-system rancher.cattle.io
+```
