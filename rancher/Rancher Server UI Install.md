@@ -86,11 +86,12 @@ cert-manager-webhook-997b5dd88-nkdp2       1/1     Running   0          19s
 -   [Rancher Helm Chart 옵션](https://rancher.com/docs/rancher/v2.x/en/installation/install-rancher-on-k8s/chart-options/#external-tls-termination)
 
 ```
-$ helm install rancher rancher-stable/rancher \
-  --namespace cattle-system \
-  --set hostname=rancher.server.prd.leedh.xyz \
-  --set replicas=3 \
-  --version 2.6.3
+$ helm upgrade --install \
+--namespace cattle-system \
+--set hostname=rancher.server.prd.leedh.xyz \
+--set replicas=3 \
+--set bootstrapPassword=Changeme123! \
+rancher rancher-stable/rancher \
 ```
 
 ### 2.2. Rancher 설치 확인
