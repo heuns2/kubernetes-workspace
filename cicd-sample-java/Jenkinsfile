@@ -58,8 +58,8 @@ pipeline {
               sh 'echo $GITLAB_API_TOKEN'
               sh 'git config --global user.email "leedh@test.com"'
               sh 'git checkout main'
-              #sh 'cd manifest/dev && kustomize edit set image harbor.eks.leedh.cloud/cicd/test-app:$BUILD_NUMBER'
-              sh 'sed -i 's/tag:.*/tag: $BUILD_NUMBER/g' helm-deployment/values.yaml'
+              #sh 'cd manifest/dev && kustomize edit set image harbor.eks.leedh.cloud/cicd/test-app:$BUILD_NUMBER' # Kustomize
+              sh 'sed -i 's/tag:.*/tag: $BUILD_NUMBER/g' helm-deployment/values.yaml' # Helm
               sh 'git add .'
               sh 'git commit -a -m "updated test"'
               sh 'git push https://$GITLAB_API_TOKEN:$GITLAB_API_TOKEN@gitlab.eks.leedh.cloud/root/my-test.git'
