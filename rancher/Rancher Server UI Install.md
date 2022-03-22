@@ -23,7 +23,7 @@ $ helm repo update
 
 ### 1.3. Namespace 생성
 
-- Rancher 관리 용 Namespace를 생성 합니다.
+- Rancher 관리 용 Namespace를 생성
 
 ```
 # namespace 생성
@@ -82,7 +82,7 @@ cert-manager-webhook-997b5dd88-nkdp2       1/1     Running   0          19s
 
 ### 2.1. Rancher 설치
 
--   Rancher Helm Chart 옵션을 확인하고 helm install 명령으로 Rancher를 Kubenetes Cluster에 배포 합니다.
+-   Rancher Helm Chart 옵션을 확인하고 helm install 명령으로 Rancher를 Kubenetes Cluster에 배포
 -   [Rancher Helm Chart 옵션](https://rancher.com/docs/rancher/v2.x/en/installation/install-rancher-on-k8s/chart-options/#external-tls-termination)
 
 ```
@@ -96,7 +96,7 @@ rancher rancher-stable/rancher
 
 ### 2.2. Rancher 설치 확인
 
--   설치 된 Rancher의 Pod 형상을 확인 합니다.
+-   설치 된 Rancher의 Pod 형상을 확인
 
 ```
 $ kubectl -n cattle-system rollout status deploy/rancher
@@ -117,6 +117,12 @@ rancher-69c4f4c9f9-ntrtn           1/1     Running     1          3m35s
 rancher-69c4f4c9f9-rhv86           1/1     Running     1          3m35s
 rancher-webhook-6cccfd96b5-9cbbg   1/1     Running     0          29s
 ```
+
+-   설치 된 Rancher의 UI 형상을 확인
+
+![rancer-ui-1][rancer-ui-1]
+
+[rancer-ui-1]:./images/rancer-ui-1.PNG
 
 
 ## 3. Issue
