@@ -124,3 +124,8 @@ rancher-webhook-6cccfd96b5-9cbbg   1/1     Running     0          29s
 ```
 $ kubectl delete MutatingWebhookConfiguration -n cattle-system rancher.cattle.io
 ```
+
+```
+$ kubectl -n cattle-system exec $(kubectl -n cattle-system get pods -l app=rancher | grep '1/1' | head -1 | awk '{ print $1 }') -- reset-password
+```
+
