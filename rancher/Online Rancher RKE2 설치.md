@@ -45,6 +45,24 @@ $ curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION=v1.22.7+rke2r1 sh -
 ```
 
 
+- Rancher Server 설치 대상 모든 Node 환경에 접속하여 Swap 비활성화, Network 브릿시 설정
+
+```
+$ sudo swapoff -a
+$ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+$ cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+$ cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+$ sudo sysctl --system
+```
+
+
 ### 1.1. 첫번째 Node에서 작업
 
 -  Config File 작성 및 설정
