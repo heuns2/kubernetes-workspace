@@ -81,6 +81,24 @@ $ mv rke2-images.linux-amd64.tar.gz /var/lib/rancher/rke2/agent/images
 ... 생략
 ```
 
+- Rancher Server 설치 대상 모든 Node 환경에 접속하여 Swap 비활성화, Network 브릿시 설정
+
+```
+$ sudo swapoff -a
+$ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+$ cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+$ cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+$ sudo sysctl --system
+```
+
+
 ### 1.2. Rancher Server Node Start
 
 - 첫 번째 Node에서 Config File을 생성하여 Rancher Server를 시작 & 확인
