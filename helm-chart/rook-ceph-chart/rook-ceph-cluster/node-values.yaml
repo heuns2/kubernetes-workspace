@@ -1,0 +1,13 @@
+cephClusterSpec:
+  storage:
+    useAllNodes: false
+    nodes:
+      - name: "worker-prd-2"
+        devices:
+          - name: "/xvdf"
+      - name: "worker-prd-3"
+        devices:
+          - name: "/xvdf"
+      - name: "worker-prd-4"
+        devices:
+          - name: "/xvdf"

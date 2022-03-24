@@ -1,0 +1,16 @@
+cephClusterSpec:
+  placement:
+    all:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-type
+              operator: NotIn
+              values:
+              - "router"
+              - "controlplane"
+      tolerations:
+      - key: storage-node
+        operator: Exists
+

@@ -1,0 +1,49 @@
+discover:
+  nodeAffinity: node-type=storage
+  tolerations:
+  - key: storage-node
+    operator: Exists
+csi:
+  provisionerNodeAffinity: node-type=storage
+  provisionerTolerations:
+  - key: storage-node
+    operator: Exists
+
+  pluginNodeAffinity: node-type=storage
+  pluginTolerations:
+  - key: storage-node
+    operator: Exists
+
+  rbdProvisionerNodeAffinity: node-type=storage
+  rbdProvisionerTolerations:
+  - key: storage-node
+    operator: Exists
+
+  rbdPluginNodeAffinity: node-type=storage
+  rbdPluginTolerations:
+  - key: storage-node
+    operator: Exists
+
+  cephFSProvisionerNodeAffinity: node-type=storage
+  cephFSProvisionerTolerations:
+  - key: storage-node
+    operator: Exists
+
+  cephFSPluginNodeAffinity: node-type=storage
+  cephFSPluginTolerations:
+  - key: storage-node
+    operator: Exists
+
+admissionController:
+  nodeAffinity: node-type=storage
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+nodeSelector:
+ node-type: storage
+
+tolerations:
+- key: storage-node
+  operator: Exists
+
