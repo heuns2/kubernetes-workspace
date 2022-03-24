@@ -1,4 +1,4 @@
-# 1. Rook - Ceph 간단한 사용 예제
+# 1. Rook - Ceph 사용 예제
 
 - Rook Ceph 정상 설치 확인 용 Yaml 정리 본
 

@@ -2,6 +2,7 @@
 - 문서 작성일 2022-03-22을 기준으로 v1.22.7+rke2r1 REK2 설치 가이드이며, Online 설치를 기준으로 작성
 - Rancher RKE2는 Rancher Kubenetes Engine과 K3(Mircro)의 장점을 결합 한 솔루션
 - RKE와는 다르게 ControlPlane 영역을 Docker를 Runtime으로 사용하지 않고 Kubelet에서 관리하는 Runtime Config로 실행
+- 주의 사항으로는 RKE2 버전을 최신버전으로 올릴 경우 Rancher UI 배포가 되지 않을 수 있음
 
 ## Requirements
 
@@ -41,6 +42,24 @@
 
 ```
 $ curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION=v1.22.7+rke2r1 sh -
+```
+
+
+- Rancher Server 설치 대상 모든 Node 환경에 접속하여 Swap 비활성화, Network 브릿시 설정
+
+```
+$ sudo swapoff -a
+$ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+$ cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+$ cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+$ sudo sysctl --system
 ```
 
 
