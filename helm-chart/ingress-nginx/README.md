@@ -35,6 +35,7 @@ controller:
            operator: NotIn
            values:
            - "storage"
+           - "controlplane"
   nodeSelector:
     node-type: "router"
 ```
