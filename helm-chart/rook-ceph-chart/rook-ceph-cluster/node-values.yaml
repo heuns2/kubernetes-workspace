@@ -4,10 +4,10 @@ cephClusterSpec:
     nodes:
       - name: "worker-prd-2"
         devices:
-          - name: "/xvdf"
+          - name: "/dev/xvdf"
       - name: "worker-prd-3"
         devices:
-          - name: "/xvdf"
+          - name: "/dev/xvdf"
       - name: "worker-prd-4"
         devices:
-          - name: "/xvdf"
+          - name: "/dev/xvdf"
