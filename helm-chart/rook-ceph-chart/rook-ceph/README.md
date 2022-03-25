@@ -19,6 +19,9 @@ NAME    FSTYPE LABEL UUID                                 MOUNTPOINT
 xvda
 └─xvda1 xfs          6cd50e51-cfc6-40b9-9ec5-f32fa2e4ff02 /
 xvdf
+
+# lvm2 Install
+$ sudo yum install -y lvm2
 ```
 
 ## 1.1. Ceph Storage
@@ -70,23 +73,71 @@ xvdf
 - Ceph Operator (Rook 설치)
 
 ```
+# Node Taint 설정
+$ kubectl taint nodes controlpalne-prd-1 true:NoSchedule
+$ kubectl taint nodes controlpalne-prd-2 true:NoSchedule
+$ kubectl taint nodes controlpalne-prd-3 true:NoSchedule
+$ kubectl taint nodes worker-prd-1 router-node=true:NoSchedule
+$ kubectl taint nodes worker-prd-2 storage-node=true:NoSchedule
+$ kubectl taint nodes worker-prd-3 storage-node=true:NoSchedule
+$ kubectl taint nodes worker-prd-4 storage-node=true:NoSchedule
+
+
 $ helm repo add rook-release https://charts.rook.io/release
 $ helm pull rook-release/rook-ceph --version v1.8.6 --untar
 
 # Storage Node Affinity 설정
+
+]$ cat affinity-values.yaml
 discover:
   nodeAffinity: node-type=storage
+  tolerations:
+  - key: storage-node
+    operator: Exists
 csi:
   provisionerNodeAffinity: node-type=storage
+  provisionerTolerations:
+  - key: storage-node
+    operator: Exists
+
   pluginNodeAffinity: node-type=storage
+  pluginTolerations:
+  - key: storage-node
+    operator: Exists
+
   rbdProvisionerNodeAffinity: node-type=storage
+  rbdProvisionerTolerations:
+  - key: storage-node
+    operator: Exists
+
   rbdPluginNodeAffinity: node-type=storage
+  rbdPluginTolerations:
+  - key: storage-node
+    operator: Exists
+
   cephFSProvisionerNodeAffinity: node-type=storage
+  cephFSProvisionerTolerations:
+  - key: storage-node
+    operator: Exists
+
   cephFSPluginNodeAffinity: node-type=storage
+  cephFSPluginTolerations:
+  - key: storage-node
+    operator: Exists
+
 admissionController:
   nodeAffinity: node-type=storage
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
 nodeSelector:
  node-type: storage
+
+tolerations:
+- key: storage-node
+  operator: Exists
+
 
 
 # crds.enabled true 상태로 설치
@@ -111,15 +162,6 @@ rook-ceph-operator-8678458494-4pz2g   1/1     Running   0          3m2s   10.233
 - Ceph Cluster (Ceph Storage 설치)
 
 ```
-# Node Taint 설정
-$ kubectl taint nodes controlpalne-prd-1 true:NoSchedule
-$ kubectl taint nodes controlpalne-prd-2 true:NoSchedule
-$ kubectl taint nodes controlpalne-prd-3 true:NoSchedule
-$ kubectl taint nodes worker-prd-1 router-node=true:NoSchedule
-$ kubectl taint nodes worker-prd-2 storage-node=true:NoSchedule
-$ kubectl taint nodes worker-prd-3 storage-node=true:NoSchedule
-$ kubectl taint nodes worker-prd-4 storage-node=true:NoSchedule
-
 $ helm pull rook-release/rook-ceph-cluster --version v1.8.6 --untar
 
 # Storage Node Affinity 용도의 value 파일 생성
@@ -132,38 +174,143 @@ cephClusterSpec:
           nodeSelectorTerms:
           - matchExpressions:
             - key: node-type
-              operator: In
+              operator: NotIn
               values:
-              - "storage"
+              - "router"
+              - "controlplane"
+      tolerations:
+      - key: storage-node
+        operator: Exists
 
-# Node 선택 용도의 value 파일 생성
-$ cat node-values.yaml
-cephClusterSpec:
-    useAllNodes: false
-    useAllDevices: false
-    nodes:
-      - name: "nodes"
-        devices:
-          - name: "xvdf"
+# value.yaml 수정
+
+
+toolbox:
+  enabled: true
+  image: rook/ceph:v1.8.6
+  tolerations:
+  - key: storage-node
+    operator: Exists
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-type
+            operator: NotIn
+            values:
+            - "router"
+            - "controlplane"
+
+cephObjectStores:
+  - name: ceph-objectstore
+    # see https://github.com/rook/rook/blob/master/Documentation/ceph-object-store-crd.md#object-store-settings for available configuration
+    spec:
+      metadataPool:
+        failureDomain: host
+        replicated:
+          size: 3
+      dataPool:
+        failureDomain: host
+        erasureCoded:
+          dataChunks: 2
+          codingChunks: 1
+      preservePoolsOnDelete: true
+      gateway:
+        port: 80
+        # securePort: 443
+        # sslCertificateRef:
+        instances: 1
+        placement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: node-type
+                  operator: NotIn
+                  values:
+                  - "router"
+                  - "controlplane"
+          tolerations:
+          - key: storage-node
+            operator: Exists
+
+cephFileSystems:
+  - name: ceph-filesystem
+    # see https://github.com/rook/rook/blob/master/Documentation/ceph-filesystem-crd.md#filesystem-settings for available configuration
+    spec:
+      metadataPool:
+        replicated:
+          size: 3
+      dataPools:
+        - failureDomain: host
+          replicated:
+            size: 3
+      metadataServer:
+        activeCount: 1
+        activeStandby: true
+        placement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: node-type
+                  operator: NotIn
+                  values:
+                  - "router"
+                  - "controlplane"
+          tolerations:
+          - key: storage-node
+            operator: Exists
 
 
 $ helm upgrade --install --namespace rook-ceph rook-ceph-cluster \
    --set operatorNamespace=rook-ceph . \
-   -f values.yaml,affinity-values.yaml,node-values.yaml 
+   -f values.yaml,affinity-values.yaml
 
 # Pod 형상 확인
+$ kubectl get pods -n rook-ceph
+NAME                                                     READY   STATUS      RESTARTS   AGE
+csi-cephfsplugin-mmnpp                                   3/3     Running     3          65m
+csi-cephfsplugin-provisioner-6cb8955dd-k5f48             6/6     Running     6          65m
+csi-cephfsplugin-provisioner-6cb8955dd-vlgbj             6/6     Running     6          65m
+csi-cephfsplugin-spp7r                                   3/3     Running     3          65m
+csi-cephfsplugin-zpv4b                                   3/3     Running     3          65m
+csi-rbdplugin-2hhq6                                      3/3     Running     3          65m
+csi-rbdplugin-f6zsp                                      3/3     Running     3          65m
+csi-rbdplugin-provisioner-5cd98bfdb4-6zxl8               6/6     Running     6          65m
+csi-rbdplugin-provisioner-5cd98bfdb4-kl7sc               6/6     Running     6          65m
+csi-rbdplugin-zv75b                                      3/3     Running     3          65m
+rook-ceph-crashcollector-worker-prd-2-756f55cbdb-trpcq   1/1     Running     0          56m
+rook-ceph-crashcollector-worker-prd-3-69c5f9cc8c-f4vcp   1/1     Running     0          58m
+rook-ceph-crashcollector-worker-prd-4-77d55bc55b-9qc8g   1/1     Running     1          63m
+rook-ceph-mds-ceph-filesystem-a-76765f8c8d-m4gp9         1/1     Running     1          58m
+rook-ceph-mds-ceph-filesystem-b-c46bcc574-7j9g7          1/1     Running     1          58m
+rook-ceph-mgr-a-5d9689467d-mvhq8                         1/1     Running     1          58m
+rook-ceph-mon-a-7446649fcd-rrvbf                         1/1     Running     1          64m
+rook-ceph-mon-b-785c4d8748-9wvbm                         1/1     Running     1          64m
+rook-ceph-mon-c-58d748db87-cw2qv                         1/1     Running     1          64m
+rook-ceph-operator-84bb595896-kt94d                      1/1     Running     2          66m
+rook-ceph-osd-0-7cf7d4bb76-n8p8l                         1/1     Running     1          62m
+rook-ceph-osd-1-7c748b447-lmxs7                          1/1     Running     1          62m
+rook-ceph-osd-2-5c6f4c8489-92jb8                         1/1     Running     1          62m
+rook-ceph-osd-prepare-worker-prd-2-ddcxt                 0/1     Completed   0          55m
+rook-ceph-osd-prepare-worker-prd-3-vw9nx                 0/1     Completed   0          55m
+rook-ceph-osd-prepare-worker-prd-4-hbvnh                 0/1     Completed   0          55m
+rook-ceph-rgw-ceph-objectstore-a-5c777d8689-wq7zd        1/1     Running     0          58m
+rook-ceph-tools-f8775877d-jppx6                          1/1     Running     0          41m
 
 
 # Storage Class 확인
-
+$ kubectl get storageclasses.storage.k8s.io
+NAME                   PROVISIONER                     RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
+ceph-block (default)   rook-ceph.rbd.csi.ceph.com      Delete          Immediate           true                   65m
+ceph-bucket            rook-ceph.ceph.rook.io/bucket   Delete          Immediate           false                  65m
+ceph-filesystem        rook-ceph.cephfs.csi.ceph.com   Delete          Immediate           true                   65m
 ```
 
-- Disk 확인
 
-```
-$ lsblk -f
 
-```
 
 ### 1.2.3. Dashboard 확인
 
