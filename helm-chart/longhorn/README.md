@@ -1,4 +1,4 @@
-# Longhorn Install
+# Longhorn Install Helm
 
 -   Kubernetes 클러스터의 분산 상태 저장 애플리케이션을 위한 Persistence Storage로 Longhorn 볼륨 사용
 -   클라우드 공급자가 있거나 없이 Kubernetes 볼륨을 사용할 수 있도록 Blob Storage를 Longhorn 볼륨으로 분할
