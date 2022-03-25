@@ -1,0 +1,21 @@
+longhornManager:
+  tolerations:
+  - key: storage-node
+    operator: Exists
+  nodeSelector: 
+    node-type: storage
+
+longhornDriver:
+  tolerations:
+  - key: storage-node
+    operator: Exists
+  nodeSelector: 
+    node-type: storage
+
+longhornUI:
+  tolerations:
+  - key: storage-node
+    operator: Exists
+  nodeSelector: 
+    node-type: storage
+

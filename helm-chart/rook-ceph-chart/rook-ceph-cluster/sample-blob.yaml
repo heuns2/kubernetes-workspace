@@ -1,0 +1,40 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: my-csi-app
+spec:
+  containers:
+    - name: my-frontend
+      image: busybox
+      volumeMounts:
+      - mountPath: "/data"
+        name: my-volume
+      command: [ "sleep", "1000000" ]
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-type
+            operator: NotIn
+            values:
+            - "router"
+            - "controlplane"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+  volumes:
+    - name: my-volume
+      persistentVolumeClaim:
+        claimName: csi-pod-pvc
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: csi-pod-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ceph-block
