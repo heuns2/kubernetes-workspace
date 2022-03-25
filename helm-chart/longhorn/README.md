@@ -228,4 +228,4 @@ spec:
 
 ![long-horn-ui-1][long-horn-ui-1]
 
-[long-horn-ui-1]:./images/long-horn-ui-1.PNG
+[long-horn-ui-1]:./images/long-horn-ui.PNG
