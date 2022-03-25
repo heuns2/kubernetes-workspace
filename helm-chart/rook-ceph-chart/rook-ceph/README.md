@@ -309,9 +309,6 @@ ceph-bucket            rook-ceph.ceph.rook.io/bucket   Delete          Immediate
 ceph-filesystem        rook-ceph.cephfs.csi.ceph.com   Delete          Immediate           true                   65m
 ```
 
-
-
-
 ### 1.2.3. Dashboard 확인
 
 - Rook Ceph 관리 Dashboard Ingress 생성
@@ -345,3 +342,104 @@ spec:
             port:
               name: https-dashboard
 ```
+
+
+### 1.2.4. 
+
+- ceph 명령어 확인
+
+```
+$ kubectl -n rook-ceph exec rook-ceph-tools-f8775877d-jppx6 -it -- sh
+sh-4.4$ ceph status
+  cluster:
+    id:     66854258-cf89-4482-8a95-d506c0862278
+    health: HEALTH_OK
+
+  services:
+    mon: 3 daemons, quorum a,c,b (age 2h)
+    mgr: a(active, since 2h)
+    mds: 1/1 daemons up, 1 hot standby
+    osd: 3 osds: 3 up (since 2h), 3 in (since 2h)
+    rgw: 1 daemon active (1 hosts, 1 zones)
+
+  data:
+    volumes: 1/1 healthy
+    pools:   11 pools, 177 pgs
+    objects: 414 objects, 97 KiB
+    usage:   60 GiB used, 300 GiB / 360 GiB avail
+    pgs:     177 active+clean
+
+  io:
+    client:   1.3 KiB/s rd, 170 B/s wr, 2 op/s rd, 0 op/s wr
+
+sh-4.4$ ceph osd status
+ID  HOST           USED  AVAIL  WR OPS  WR DATA  RD OPS  RD DATA  STATE
+ 0  worker-prd-3  20.0G  99.9G      0        0       0        0   exists,up
+ 1  worker-prd-2  20.0G  99.9G      0        0       1        0   exists,up
+ 2  worker-prd-4  20.0G  99.9G      0        0       2      105   exists,up
+sh-4.4$ ceph osd df
+ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA     OMAP    META    AVAIL    %USE   VAR   PGS  STATUS
+ 1    ssd  0.09769   1.00000  120 GiB   20 GiB  3.5 MiB  11 KiB  29 MiB  100 GiB  16.69  1.00  177      up
+ 0    ssd  0.09769   1.00000  120 GiB   20 GiB  3.5 MiB  11 KiB  29 MiB  100 GiB  16.69  1.00  177      up
+ 2    ssd  0.09769   1.00000  120 GiB   20 GiB  3.5 MiB  11 KiB  29 MiB  100 GiB  16.69  1.00  177      up
+                       TOTAL  360 GiB   60 GiB   10 MiB  35 KiB  87 MiB  300 GiB  16.69
+MIN/MAX VAR: 1.00/1.00  STDDEV: 0
+sh-4.4$ ceph osd utilization
+avg 177
+stddev 0 (expected baseline 10.8628)
+min osd.0 with 177 pgs (1 * mean)
+max osd.0 with 177 pgs (1 * mean)
+sh-4.4$ ceph osd pool stats
+pool device_health_metrics id 1
+  nothing is going on
+
+pool ceph-blockpool id 2
+  nothing is going on
+
+pool ceph-objectstore.rgw.control id 3
+  nothing is going on
+
+pool ceph-filesystem-metadata id 4
+  client io 853 B/s rd, 1 op/s rd, 0 op/s wr
+
+pool ceph-objectstore.rgw.meta id 5
+  nothing is going on
+
+pool ceph-filesystem-data0 id 6
+  nothing is going on
+
+pool ceph-objectstore.rgw.log id 7
+  nothing is going on
+
+pool ceph-objectstore.rgw.buckets.index id 8
+  nothing is going on
+
+pool ceph-objectstore.rgw.buckets.non-ec id 9
+  nothing is going on
+
+pool .rgw.root id 10
+  nothing is going on
+
+pool ceph-objectstore.rgw.buckets.data id 11
+  nothing is going on
+
+sh-4.4$ ceph osd tree
+ID  CLASS  WEIGHT   TYPE NAME              STATUS  REWEIGHT  PRI-AFF
+-1         0.29306  root default
+-3         0.09769      host worker-prd-2
+ 1    ssd  0.09769          osd.1              up   1.00000  1.00000
+-5         0.09769      host worker-prd-3
+ 0    ssd  0.09769          osd.0              up   1.00000  1.00000
+-7         0.09769      host worker-prd-4
+ 2    ssd  0.09769          osd.2              up   1.00000  1.00000
+```
+- Sample Pod 배포 
+
+```
+# rook-ceph-cluster 디렉토리
+sample-blob.yaml # blob Storage 배포
+sample-sharedfilesystem.yaml # sharedfilesystem File System 배포
+
+# sample-sharedfilesystem는 Replica 구조에서 파일이 같이 사용 되는지 확인
+```
+
