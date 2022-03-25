@@ -8,7 +8,7 @@
 -   볼륨의 반복적인 스냅샷을 예약하고 NFS 또는 S3 호환 보조 스토리지에 대한 반복적인 백업을 예약합니다.
 -   백업에서 볼륨 복원
 -   영구 볼륨을 중단하지 않고 Longhorn 업그레이드 가능
-- 
+
 ## Installation Requirements
 
 -   Docker v1.13+
@@ -225,3 +225,7 @@ spec:
           claimName: longhornfs-pvc-fs
           readOnly: false
 ```
+
+![long-horn-ui-1][long-horn-ui-1]
+
+[long-horn-ui-1]:./images/long-horn-ui-1.PNG
