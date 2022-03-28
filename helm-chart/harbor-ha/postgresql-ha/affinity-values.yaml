@@ -1,0 +1,35 @@
+postgresql:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+pgpool:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+

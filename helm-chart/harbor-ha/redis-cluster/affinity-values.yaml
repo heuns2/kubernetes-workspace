@@ -1,0 +1,34 @@
+redis:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+updateJob:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
