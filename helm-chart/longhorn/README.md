@@ -230,3 +230,9 @@ spec:
 ![long-horn-ui-1][long-horn-ui-1]
 
 [long-horn-ui-1]:./images/long-horn-ui.PNG
+
+
+```
+        - name: KUBELET_ROOT_DIR
+          value: /var/lib/kubelet
+```
