@@ -1,3 +1,4 @@
+
 # HA Harbor Install Helm
 
 ## Prerequisites
@@ -136,5 +137,333 @@ $ postgresql-ha-pgpool.harbor.svc.cluster.local
 
 ## 3. Harbor HA Install
 
-- ㅇㅇㅇ
+- Helm을 통한 Harbor구성
+
+```
+# 설치 가능 postgresql-ha 버전 확인
+$ helm repo add harbor https://helm.goharbor.io
+$ helm search repo harbor/harbor --versions
+
+# Harbor Helm Chart 다운로드
+$ helm pull harbor/harbor --version=1.8.2 --untar
+
+# affinity 설정
+nginx:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+portal:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+core:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+jobservice:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+registry:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+chartmuseum:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+notary:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+exporter:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+nginx:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+portal:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+core:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+jobservice:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+registry:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+chartmuseum:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+notary:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+exporter:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+
+
+# Helm Install
+$ helm upgrade --install harbor . --namespace harbor \
+--set expose.ingress.hosts.core=core.harbor.heun.leedh.xyz \
+--set expose.ingress.hosts.notary=notary.harbor.heun.leedh.xyz \
+--set externalURL=harbor.heun.leedh.xyz \
+--set database.type=external \
+--set database.external.host="postgresql-ha-pgpool.harbor.svc.cluster.local" \
+--set database.external.password="Gt60l9p8rQ" \
+--set database.external.username=postgres \
+--set redis.type=external \
+--set redis.external.addr="redis-cluster.harbor.svc.cluster.local" \
+--set redis.external.password="wrH7fQGVf5" \
+--set persistence.persistentVolumeClaim.registry.storageClass=ceph-filesystem \
+--set persistence.persistentVolumeClaim.chartmuseum.storageClass=ceph-filesystem \
+--set persistence.persistentVolumeClaim.jobservice.storageClass=ceph-filesystem \
+--set persistence.persistentVolumeClaim.registry.accessMode=ReadWriteMany \
+--set persistence.persistentVolumeClaim.chartmuseum.accessMode=ReadWriteMany \
+--set persistence.persistentVolumeClaim.jobservice.accessMode=ReadWriteMany \
+--set portal.replicas=2 \
+--set core.replicas=2 \
+--set jobservice.replicas=2 \
+--set registry.replicas=2 \
+--set chartmuseum.replicas=2 \
+--set notary.server.replicas=2 \
+--set notary.signer.replicas=2 \
+-f values.yaml,affinity-values.yaml
+
+
+-- Create required databases
+CREATE DATABASE notaryserver;
+CREATE DATABASE notarysigner;
+CREATE DATABASE registry ENCODING 'UTF8';
+CREATE DATABASE clair;
+
+-- Create harbor user
+-- The helm chart limits us to a single user for all databases
+CREATE USER harbor;
+ALTER USER harbor WITH ENCRYPTED PASSWORD 'change-this-password';
+
+-- Grant the user access to the DBs
+GRANT ALL PRIVILEGES ON DATABASE notaryserver TO harbor;
+GRANT ALL PRIVILEGES ON DATABASE notarysigner TO harbor;
+GRANT ALL PRIVILEGES ON DATABASE registry TO harbor;
+GRANT ALL PRIVILEGES ON DATABASE clair to clair;
+```
 
