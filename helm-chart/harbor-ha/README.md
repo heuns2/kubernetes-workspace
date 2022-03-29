@@ -75,7 +75,7 @@ updateJob:
 
 
 # Reids Cluster Install
-$ helm install redis-cluster . --namespace harbor \
+$ helm upgrade --install redis-cluster . --namespace harbor \
 --set global.storageClass=ceph-filesystem \
 -f values.yaml,affinity-values.yaml
 
@@ -110,7 +110,7 @@ $ helm pull bitnami/postgresql-ha  --version=8.6.4 --untar
     - ReadWriteMany
 
 # Helm Install Postgres
-helm install postgresql-ha . --namespace harbor \
+helm upgrade --install postgresql-ha . --namespace harbor \
 --set global.storageClass=ceph-filesystem \
 -f values.yaml,affinity-values.yaml
 
