@@ -115,9 +115,12 @@ postgresql-ha-pgpool-86d7f66dbb-7t98j   1/1     Running   1          2m36s
 postgresql-ha-postgresql-0              1/1     Running   0          2m36s
 postgresql-ha-postgresql-1              1/1     Running   1          2m36s
 postgresql-ha-postgresql-2              1/1     Running   1          2m35s
-redis-node-0                            2/2     Running   0          14m
-redis-node-1                            2/2     Running   0          13m
-redis-node-2                            2/2     Running   0          12m
+redis-cluster-0                         1/1     Running   0          34m
+redis-cluster-1                         1/1     Running   0          34m
+redis-cluster-2                         1/1     Running   0          34m
+redis-cluster-3                         1/1     Running   0          34m
+redis-cluster-4                         1/1     Running   0          34m
+redis-cluster-5                         1/1     Running   0          34m
 
 # Postgres 접근 패스워드 확인
 $ kubectl get secret --namespace harbor postgresql-ha-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode
@@ -464,7 +467,7 @@ GRANT ALL PRIVILEGES ON DATABASE clair to clair;
 $ helm upgrade --install harbor . --namespace harbor \
 --set expose.ingress.hosts.core=core.harbor.heun.leedh.xyz \
 --set expose.ingress.hosts.notary=notary.harbor.heun.leedh.xyz \
---set externalURL=harbor.heun.leedh.xyz \
+--set externalURL=http://harbor.heun.leedh.xyz \
 --set database.type=external \
 --set database.external.host="postgresql-ha-pgpool.harbor.svc.cluster.local" \
 --set database.external.password="Gt60l9p8rQ" \
