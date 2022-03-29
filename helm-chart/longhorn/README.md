@@ -90,6 +90,7 @@ csi-resize
 csi-snapshotter
 longhorn-csi-plugin
 engine-image-ei
+discover-proc-kubelet-cmdline
 ```
 
 
