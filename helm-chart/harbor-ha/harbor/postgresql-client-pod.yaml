@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: postgres-client
+  name: postgres-client
+spec:
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+  containers:
+  - env:
+    - name: POSTGRES_PASSWORD
+      value: Gt60l9p8rQ
+    image: postgres:11
+    name: postgres-client
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

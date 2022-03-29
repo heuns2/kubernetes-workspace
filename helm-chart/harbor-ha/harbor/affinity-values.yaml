@@ -1,0 +1,271 @@
+nginx:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+portal:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+core:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+jobservice:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+registry:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+chartmuseum:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+notary:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+exporter:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+nginx:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+portal:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+core:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+jobservice:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+registry:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+chartmuseum:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+notary:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
+exporter:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlpalne"
+  nodeSelector:
+    node-type: "storage"
+  tolerations:
+  - key: storage-node
+    operator: Exists
+
