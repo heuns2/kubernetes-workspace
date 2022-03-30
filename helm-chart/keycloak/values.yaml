@@ -204,7 +204,7 @@ auth:
 ## @param proxyAddressForwarding Enable Proxy Address Forwarding
 ## ref: https://www.keycloak.org/docs/latest/server_installation/#_setting-up-a-load-balancer-or-proxy
 ##
-proxyAddressForwarding: false
+proxyAddressForwarding: true
 ## Keycloak Service Discovery settings
 ## ref: https://github.com/bitnami/bitnami-docker-keycloak#cluster-configuration
 ##
@@ -276,10 +276,12 @@ command: []
 args: []
 ## @param extraEnvVars Extra environment variables to be set on Keycloak container
 ## Example:
-## extraEnvVars:
-##   - name: FOO
-##     value: "bar"
-##
+extraEnvVars:
+- name: KEYCLOAK_PROXY_ADDRESS_FORWARDING
+  value: "true"
+- name: KEYCLOAK_FRONTEND_URL
+  value: "https://keycloak.heun.leedh.xyz"
+
 extraEnvVars: []
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars
 ##
@@ -292,7 +294,7 @@ extraEnvVarsSecret: ""
 
 ## @param replicaCount Number of Keycloak replicas to deploy
 ##
-replicaCount: 1
+replicaCount: 2
 ## @param containerPorts.http Keycloak HTTP container port
 ## @param containerPorts.https Keycloak HTTPS container port
 ## @param containerPorts.management Keycloak management HTTP container port
@@ -549,7 +551,7 @@ service:
 ingress:
   ## @param ingress.enabled Enable ingress record generation for Keycloak
   ##
-  enabled: false
+  enabled: true
   ## @param ingress.ingressClassName IngressClass that will be be used to implement the Ingress (Kubernetes 1.18+)
   ## This is supported in Kubernetes 1.18+ and required if you have more than one IngressClass marked as the default for your cluster .
   ## ref: https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
@@ -563,7 +565,7 @@ ingress:
   apiVersion: ""
   ## @param ingress.hostname Default host for the ingress record
   ##
-  hostname: keycloak.local
+  hostname: keycloak.heun.leedh.xyz
   ## @param ingress.path Default path for the ingress record
   ##
   path: /
