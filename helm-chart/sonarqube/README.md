@@ -1,4 +1,4 @@
-# SonarcubeHelm Install
+# Sonarcube Helm Install
 
 ## Requirements
 -   Kubernetes 1.19+
