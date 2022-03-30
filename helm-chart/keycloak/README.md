@@ -40,13 +40,6 @@ nodeSelector:
   node-type: "storage"
 ```
 
-- values.yaml ReadWriteMany 수정
-
-```
-  accessModes:
-    - ReadWriteMany로 수정
-```
-
 - keycloak Helm Install
 
 ```
@@ -73,14 +66,14 @@ metadata:
   namespace: keycloak
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    #ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     #kubernetes.io/tls-acme: "true"
-    kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/session-cookie-name: "route"
     nginx.ingress.kubernetes.io/session-cookie-expires: "36000"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "36000"
+    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+
 spec:
   rules:
   - host: "keycloak.heun.leedh.xyz"
@@ -92,11 +85,12 @@ spec:
           service:
             name: keycloak
             port:
-              number: 80
+              number: 443
   tls:
   - hosts:
     - keycloak.heun.leedh.xyz
     secretName: keycloak-tls
+
 ```
 
 ## 2. Key Cloak 추가 확인 사항
