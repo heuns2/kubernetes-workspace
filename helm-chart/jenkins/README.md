@@ -1,4 +1,4 @@
-# Jenkins 설치 (Helm v3)
+# Jenkins Install
 
 ## 1. Prerequisites
 
@@ -138,8 +138,27 @@ subjects:
 $ kubectl apply -f jenkins-sa.yaml
 ```
 
+### 2.5. Storage Node로 Affinity 설정
 
-### 2.5.  Helm Jenkins Chart 설치
+```
+$ cat affinity-values.yaml
+controller:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlplane"
+  nodeSelector:
+    node-type: "storage"
+
+```
+
+### 2.6.  Helm Jenkins Chart 설치
 
 ```
 $ helm upgrade --install jenkins . \
@@ -229,7 +248,7 @@ unable to access 'https://gitlab.eks.leedh.cloud/root/my-test.git/': server cert
   containerEnv:
   - name: "GIT_SSL_NO_VERIFY"
     value: "1"
-    
+
   envVars:
   - name: "GIT_SSL_NO_VERIFY"
     value: "1"
