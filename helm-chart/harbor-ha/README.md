@@ -138,6 +138,28 @@ $ helm search repo harbor/harbor --versions
 # Harbor Helm Chart 다운로드
 $ helm pull harbor/harbor --version=1.8.2 --untar
 
+
+# Values.yaml 변경 kubernetes.io/ingress.class: "nginx" 추가
+  ingress:
+    hosts:
+      core: core.harbor.domain
+      notary: notary.harbor.domain
+    # set to the type of ingress controller if it has specific requirements.
+    # leave as `default` for most ingress controllers.
+    # set to `gce` if using the GCE ingress controller
+    # set to `ncp` if using the NCP (NSX-T Container Plugin) ingress controller
+    controller: default
+    ## Allow .Capabilities.KubeVersion.Version to be overridden while creating ingress
+    kubeVersionOverride: ""
+    annotations:
+      # note different ingress controllers may require a different ssl-redirect annotation
+      # for Envoy, use ingress.kubernetes.io/force-ssl-redirect: "true" and remove the nginx lines below
+      ingress.kubernetes.io/ssl-redirect: "true"
+      ingress.kubernetes.io/proxy-body-size: "0"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      kubernetes.io/ingress.class: "nginx"
+
 # affinity 설정
 nginx:
   affinity:
