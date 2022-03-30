@@ -63,7 +63,7 @@ updateJob:
   nodeSelector:
     node-type: "storage"
 
-# value.yaml에 아래 라인 변경 (2개)
+# value.yaml에 아래 라인 변경 (3개)
   accessModes:
     - ReadWriteMany
 
@@ -174,9 +174,6 @@ nginx:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
 
 portal:
   affinity:
@@ -191,9 +188,6 @@ portal:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
 
 core:
   affinity:
@@ -208,9 +202,7 @@ core:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
+
 
 jobservice:
   affinity:
@@ -225,9 +217,6 @@ jobservice:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
 
 registry:
   affinity:
@@ -242,9 +231,7 @@ registry:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
+
 
 chartmuseum:
   affinity:
@@ -259,9 +246,7 @@ chartmuseum:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
+
 
 notary:
   affinity:
@@ -276,9 +261,7 @@ notary:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
+
 
 exporter:
   affinity:
@@ -293,9 +276,7 @@ exporter:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
+
 nginx:
   affinity:
    nodeAffinity:
@@ -309,9 +290,7 @@ nginx:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
+
 
 portal:
   affinity:
@@ -326,9 +305,6 @@ portal:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
 
 core:
   affinity:
@@ -343,9 +319,6 @@ core:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
 
 jobservice:
   affinity:
@@ -360,10 +333,7 @@ jobservice:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
-
+    
 registry:
   affinity:
    nodeAffinity:
@@ -377,9 +347,6 @@ registry:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
 
 chartmuseum:
   affinity:
@@ -394,9 +361,6 @@ chartmuseum:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
 
 notary:
   affinity:
@@ -428,9 +392,6 @@ exporter:
            - "controlpalne"
   nodeSelector:
     node-type: "storage"
-  tolerations:
-  - key: storage-node
-    operator: Exists
 
 
 # Harobr DB 생성
