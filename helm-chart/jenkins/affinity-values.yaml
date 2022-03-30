@@ -1,0 +1,13 @@
+controller:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+         - key: node-type
+           operator: NotIn
+           values:
+           - "router"
+           - "controlplane"
+  nodeSelector:
+    node-type: "storage"
