@@ -1004,7 +1004,7 @@ sentinel:
     ## @param sentinel.persistence.accessModes Persistent Volume access modes
     ##
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
     ## @param sentinel.persistence.size Persistent Volume size
     ##
     size: 100Mi
