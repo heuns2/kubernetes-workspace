@@ -53,9 +53,10 @@ nodeSelector:
 $ kubectl create ns keycloak 
 $ helm upgrade --install keycloak . --namespace=keycloak \
 --set auth.adminPassword=admin \
+--set serviceDiscovery.enabled=true \
+--set replicaCount=2 \
 --set auth.managementPassword=admin \
 --set postgresql.postgresqlPassword=admin \
---set postgresql.persistence.existingClaim=keycloak-postgres-pvc \
 --set global.storageClass=longhorn \
 --set service.type=ClusterIP \
 -f values.yaml,affinity-values.yaml
@@ -93,6 +94,8 @@ spec:
 - Ingress Controller에서 SSL 인증서가 Offloading 될 경우 아래 설정이 추가 될 수 있다.
 
 ```
+proxyAddressForwarding: true
+extraEnvVars:
 - name: KEYCLOAK_PROXY_ADDRESS_FORWARDING
   value: "true"
 - name: KEYCLOAK_FRONTEND_URL
