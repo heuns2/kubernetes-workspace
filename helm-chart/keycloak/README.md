@@ -14,7 +14,7 @@ $ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm repo update
 ```
 
-- Sonarcube Helm Chart Download
+- Key Cloak Helm Chart Download
 
 ```
 # 설치 가능 버전 확인
