@@ -11,7 +11,7 @@
 - Sonacube Helm Repo Add & Update
 
 ```
-$ helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm repo update
 ```
 
