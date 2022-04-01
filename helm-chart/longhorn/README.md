@@ -249,7 +249,7 @@ MountVolume.MountDevice failed for volume "pvc-7372ee4e-b3d3-4c94-a573-7240a7f9b
 
 yum install gcc
 
-wget https://distfiles.macports.org/e2fsprogs/e2fsprogs-1.45.6.tar.gz
+wget https://distfiles.macports.org/e2fsprogs/e2fsprogs-1.45.6.tar.gz --no-check-certificate
 tar -zxvf e2fsprogs-1.45.6.tar.gz
 cd e2fsprogs-1.45.6
 make && make install
