@@ -237,3 +237,26 @@ spec:
         - name: KUBELET_ROOT_DIR
           value: /var/lib/kubelet
 ```
+
+
+## 2. 확인 사항 
+
+- Pod Storage 복구, 아래 장애 발생 할 경우 
+
+```
+MountVolume.MountDevice failed for volume "pvc-7372ee4e-b3d3-4c94-a573-7240a7f9b6ae" : rpc error: code = Internal desc = 'fsck' found errors on device /dev/longhorn/pvc-7372ee4e-b3d3-4c94-a573-7240a7f9b6ae but could not correct them: fsck from util-linux 2.34
+/dev/longhorn/pvc-7372ee4e-b3d3-4c94-a573-7240a7f9b6ae contains a file system with errors, check forced.
+/dev/longhorn/pvc-7372ee4e-b3d3-4c94-a573-7240a7f9b6ae: Resize inode not valid
+
+yum install gcc
+
+wget https://distfiles.macports.org/e2fsprogs/e2fsprogs-1.45.6.tar.gz --no-check-certificate
+tar -zxvf e2fsprogs-1.45.6.tar.gz
+cd e2fsprogs-1.45.6
+./configure
+make && make install
+
+e2fsck -V
+e2fsck 1.45.6 (20-Mar-2020)
+        Using EXT2FS Library version 1.45.6, 20-Mar-2020
+```
