@@ -253,6 +253,7 @@ yum install gcc
 wget https://distfiles.macports.org/e2fsprogs/e2fsprogs-1.45.6.tar.gz --no-check-certificate
 tar -zxvf e2fsprogs-1.45.6.tar.gz
 cd e2fsprogs-1.45.6
+./configure
 make && make install
 
 e2fsck -V
