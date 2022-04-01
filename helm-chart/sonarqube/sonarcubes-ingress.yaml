@@ -16,6 +16,6 @@ spec:
         path: /
         backend:
           service:
-            name: sonarqube
+            name: sonarqube-sonarqube
             port:
-              number: 80
+              number: 9000

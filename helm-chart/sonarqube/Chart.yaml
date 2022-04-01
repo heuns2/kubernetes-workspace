@@ -1,32 +1,61 @@
 annotations:
-  category: DeveloperTools
-apiVersion: v2
+  artifacthub.io/changes: |
+    - kind: added
+      description: "added support multiple image pull secrets"
+    - kind: deprecated
+      description: "deprecated support for singular image pull secret"
+    - kind: fixed
+      description: "fixed missing image pull secret in admin hook job"
+    - kind: added
+      description: "added possibility to define the ingress pathType"
+    - kind: added
+      description: "added network policies"
+    - kind: added
+      description: "added possibility to define ressources for the change admin password hook"
+    - kind: added
+      description: "default permissions for prometheus injector now align with pod fs permissions"
+    - kind: changed
+      description: "updated dependencies"
+    - kind: fixed
+      description: "admin hook now honors web context"
+    - kind: changed
+      description: "detached sonarqube version from edition"
+    - kind: fixed
+      description: "SONAR_WEB_SYSTEMPASSCODE env var is available with deploymentType=Deployment"
+    - kind: fixed
+      description: "added missing logic for `caCerts.enabled`"
+    - kind: fixed
+      description: "livenessProbe.failureThreshold was never rendered"
+    - kind: fixed
+      description: "properties are now correctly set"
+    - kind: fixed
+      description: "add securitycontext to wait-for-db and change-password hook"
+    - kind: changed
+      description: "updated SonarQube to 9.3.0"
+  artifacthub.io/containsSecurityUpdates: "false"
+  artifacthub.io/images: |
+    - name: sonarqube
+      image: sonarqube:9.3.0-community
+  artifacthub.io/links: |
+    - name: support
+      url: https://community.sonarsource.com/
+apiVersion: v1
 appVersion: 9.3.0
-dependencies:
-- condition: postgresql.enabled
-  name: postgresql
-  repository: https://charts.bitnami.com/bitnami
-  version: 11.x.x
-- name: common
-  repository: https://charts.bitnami.com/bitnami
-  tags:
-  - bitnami-common
-  version: 1.x.x
-description: SonarQube is an open source quality management platform that analyzes
-  and measures code's technical quality. It enables developers to detect code issues,
-  vulnerabilities, and bugs in early stages.
-home: https://github.com/bitnami/charts/tree/master/bitnami/sonarqube
-icon: https://bitnami.com/assets/stacks/sonarqube/img/sonarqube-stack-220x234.png
+description: SonarQube offers Code Quality and Code Security analysis for up to 27
+  languages. Find Bugs, Vulnerabilities, Security Hotspots and Code Smells throughout
+  your workflow.
+home: https://www.sonarqube.org/
+icon: https://www.sonarqube.org/assets/logo-31ad3115b1b4b120f3d1efd63e6b13ac9f1f89437f0cf6881cc4d8b5603a52b4.svg
 keywords:
-- sonarqube
-- code-quality
-- code-review
-- static-analysis
+- coverage
+- security
+- code
+- quality
+kubeVersion: '>= 1.19.0-0'
 maintainers:
-- email: containers@bitnami.com
-  name: Bitnami
+- email: tobias.trabelsi+helm@sonarsource.com
+  name: tobias-trabelsi-sonarsource
 name: sonarqube
 sources:
-- https://github.com/bitnami/bitnami-docker-sonarqube
-- https://github.com/SonarSource/sonarqube
-version: 1.0.3
+- https://github.com/SonarSource/docker-sonarqube
+version: 2.0.0+248
