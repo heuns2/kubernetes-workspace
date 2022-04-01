@@ -239,9 +239,10 @@ spec:
 ```
 
 
-Storage 복구 시
+## 2. 확인 사항 
 
-- 아래 장애 발생 할 경우
+- Pod Storage 복구, 아래 장애 발생 할 경우 
+
 ```
 MountVolume.MountDevice failed for volume "pvc-7372ee4e-b3d3-4c94-a573-7240a7f9b6ae" : rpc error: code = Internal desc = 'fsck' found errors on device /dev/longhorn/pvc-7372ee4e-b3d3-4c94-a573-7240a7f9b6ae but could not correct them: fsck from util-linux 2.34
 /dev/longhorn/pvc-7372ee4e-b3d3-4c94-a573-7240a7f9b6ae contains a file system with errors, check forced.
