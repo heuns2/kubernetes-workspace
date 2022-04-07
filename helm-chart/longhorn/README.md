@@ -22,11 +22,7 @@
 -   Mount propagation must be enabled.
 
 
-- 환경 설정 검사
 
-```
-curl -sSfL https://raw.githubusercontent.com/longhorn/longhorn/master/scripts/environment_check.sh | bash
-```
 
 - 필요한 Dependency 설치
 
@@ -34,6 +30,12 @@ curl -sSfL https://raw.githubusercontent.com/longhorn/longhorn/master/scripts/en
 $ yum install epel-release
 $ yum install jq
 $ yum install iscsi-initiator-utils
+```
+
+- 환경 설정 검사
+
+```
+curl -sSfL https://raw.githubusercontent.com/longhorn/longhorn/master/scripts/environment_check.sh | bash
 ```
 
 ## 1.2. Longhorn Heml v3 Install
