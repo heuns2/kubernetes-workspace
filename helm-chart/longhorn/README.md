@@ -97,12 +97,14 @@ discover-proc-kubelet-cmdline
 
 ### 1.2.3. Longhorn Component 역할
 
-Component | 역할 | Github Repo |
+Component | 역할| Github Repo |
 --- | --- | --- |
 Longhorn Backing Image Manager| 백업 이미지 다운로드, 동기화 및 디스크 삭제| [longhorn/backing-image-manager](https://github.com/longhorn/backing-image-manager) | 
---- | --- | --- |
 Longhorn Engine| Core Controller/ Replica Logic| [longhorn/longhorn-engine](https://github.com/longhorn/longhorn-engine) |
-
+Longhorn Instance Manager| Controller/replica instance lifecycle 관리| [longhorn/longhorn-instance-manager](https://github.com/longhorn/longhorn-instance-manager) |
+Longhorn Manager| Longhorn 운영, Kubernetes CSI driver 관리| [longhorn/longhorn-manager](https://github.com/longhorn/longhorn-manager)|
+Longhorn Share Manager | Longhorn Volme을 ReadWriteMany Volme으로 노출하는 NFS Provider| [longhorn/longhorn-share-manager](https://github.com/longhorn/longhorn-share-manager) |
+Longhorn UI | Longhorn 관리 용 UI| [longhorn/longhorn-ui](https://github.com/longhorn/longhorn-ui) |
 
 ### 1.2.3. Longhorn  확인
 
