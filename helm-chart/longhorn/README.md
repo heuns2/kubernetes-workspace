@@ -93,8 +93,16 @@ engine-image-ei
 discover-proc-kubelet-cmdline
 ```
 
+### 1.2.3. Longhorn Component 역할
 
-### 1.2.2. Longhorn  확인
+Component | 역할 | Github Repo |
+--- | --- | --- |
+Longhorn Backing Image Manager| 백업 이미지 다운로드, 동기화 및 디스크 삭제| [longhorn/backing-image-manager](https://github.com/longhorn/backing-image-manager) | 
+--- | --- | --- |
+Longhorn Engine| Core Controller/ Replica Logic| [longhorn/longhorn-engine](https://github.com/longhorn/longhorn-engine) |
+
+
+### 1.2.3. Longhorn  확인
 
 - ReadWriteOnce Type
 
