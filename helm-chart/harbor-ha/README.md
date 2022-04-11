@@ -104,8 +104,9 @@ $ helm pull bitnami/postgresql-ha  --version=8.6.4 --untar
     - ReadWriteMany
 
 # Helm Install Postgres
-helm install postgresql-ha . --namespace harbor \
---set global.storageClass=ceph-filesystem \
+$ helm upgrade --install postgresql-ha . --namespace harbor \
+--set global.storageClass=longhorn \
+--set global.postgresql.password="1q2w3e4r5t" \
 -f values.yaml,affinity-values.yaml
 
 # Pod 형상 확인
