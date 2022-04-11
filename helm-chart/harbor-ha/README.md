@@ -31,7 +31,7 @@ $ helm repo update
 $ helm search repo bitnami/redis --versions
 
 # Source Code Download
-$ helm pull bitnami/redis-cluster --version=7.4.0 --untar
+$ helm pull bitnami/redis --version=16.8.4 --untar
 
 # Storage Node를 사용하기 위해 Affinity 사용
 $ cat affinity-values.yaml
