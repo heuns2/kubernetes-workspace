@@ -44,11 +44,6 @@ $ docker tag hello-world:latest harbor.xxx.xxx/xxx/hello-world:1.0
 docker push harbor.xxx.xxx/xxx/hello-world:1.0
 ```
 
-![docker-push-test-1][docker-push-test-1]
-
-[docker-push-test-1]:./images/docker-push-test-1.PNG
-
-
 ### 1.3.K8S 배포
 
 - Docker Registry Harbor 인증 용 Secret 생성
