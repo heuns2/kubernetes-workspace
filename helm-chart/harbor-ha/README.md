@@ -107,6 +107,7 @@ $ helm pull bitnami/postgresql-ha  --version=8.6.4 --untar
 $ helm upgrade --install postgresql-ha . --namespace harbor \
 --set global.storageClass=longhorn \
 --set global.postgresql.password="1q2w3e4r5t" \
+--set pgpool.replicaCount=2 \
 -f values.yaml,affinity-values.yaml
 
 # Pod 형상 확인
@@ -470,6 +471,7 @@ $ helm upgrade --install harbor . --namespace harbor \
 --set chartmuseum.replicas=2 \
 --set notary.server.replicas=2 \
 --set notary.signer.replicas=2 \
+--set clair.replicas=2 \
 -f values.yaml,affinity-values.yaml
 ```
 
