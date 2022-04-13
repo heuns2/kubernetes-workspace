@@ -1,12 +1,12 @@
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 metadata:
   name: jenkins-pvc
-  namespace: jenkins
 spec:
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem          
-  resources:
-    requests:
-      storage: 20Gi
+  capacity:
+    storage: 20Gi
+  hostPath:
+    path: "/mnt/data"
