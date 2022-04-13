@@ -181,8 +181,8 @@ $ helm upgrade --install prometheus . --namespace monitoring \
 --set kubeEtcd.serviceMonitor.insecureSkipVerify=false \
 --set kubeEtcd.serviceMonitor.serverName=localhost \
 --set kubeEtcd.serviceMonitor.caFile=/etc/prometheus/secrets/etcd-monitoring-certs/ca.pem \
---set kubeEtcd.serviceMonitor.certFile=/etc/prometheus/secrets/etcd-monitoring-certs/admin-jv0586kubecpdev01.pem \
---set kubeEtcd.serviceMonitor.keyFile=/etc/prometheus/secrets/etcd-monitoring-certs/admin-jv0586kubecpdev01-key.pem \
+--set kubeEtcd.serviceMonitor.certFile=/etc/prometheus/secrets/etcd-monitoring-certs/etcd.cert \
+--set kubeEtcd.serviceMonitor.keyFile=/etc/prometheus/secrets/etcd-monitoring-certs/etcd.pem \
 -f values.yaml,resource-values.yaml,storage-values.yaml,affinity-values.yaml
 ```
 
