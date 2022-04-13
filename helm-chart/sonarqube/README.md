@@ -60,6 +60,24 @@ spec:
   storageClassName: "longhorn"
 ```
 
+- Sonarcube JDBC 용 PVC 생성(Helm으로 생성이 안될 경우)
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-sonarqube-postgresql-0
+  namespace: sonarqube
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: "longhorn"
+```
+
 - Sonarcube Helm Install
 
 ```
@@ -86,6 +104,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "8m"
 spec:
   rules:
   - host: "sonacubes.heun.leedh.xyz"
@@ -98,4 +117,5 @@ spec:
             name: sonarqube-sonarqube
             port:
               number: 9000
+              
 ```
