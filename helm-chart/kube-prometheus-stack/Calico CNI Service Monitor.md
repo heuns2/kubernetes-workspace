@@ -123,11 +123,3 @@ spec:
 
 $ kubectl apply -f calico-felix-service-monitor.yaml
 ```
-
-### 1.3. Cailco Grafana 확인
-
-- Grafana Dashboard 확인
-
-![calico-monitor-1][calico-monitor-1]
-
-[calico-monitor-1:./images/calico-monitor-1.PNG
