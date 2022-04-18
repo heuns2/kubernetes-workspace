@@ -39,7 +39,7 @@ injector:
   nodeSelector:
     node-type: "storage"
 
-server
+server:
   affinity:
    nodeAffinity:
      requiredDuringSchedulingIgnoredDuringExecution:
