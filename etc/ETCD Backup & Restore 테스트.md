@@ -263,7 +263,7 @@ $ ETCDCTL_API=3 etcdctl --write-out=table member list --endpoints=https://127.0.
 
 ## 3. 2번 Contol Plane Node ETCD  복구
 
-- 1번 Node에서 Member 추가 후  복사한 Line을 2번 Node의 /etc/etcd.env에서 설정을 변경 한다.
+- 1번 Node에서 Member 추가 후  복사한 Line을 2번 Node의 /etc/etcd.env에서 설정을 변경
 
 ```
 ETCD_NAME="etcd2"
