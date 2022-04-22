@@ -161,3 +161,18 @@ kubectl-argo-rollouts: v1.1.1+0716c5d
   Compiler: gc
   Platform: linux/amd64
 ```
+
+## 4. Argo Password 변경
+
+```
+export ARGO_PWD='test1234'
+htpasswd -nbBC 10 "" $ARGO_PWD | tr -d ':\n' | sed 's/$2y/$2a/'
+
+
+kubectl -n argo patch secret argocd-secret \
+  -p '{"stringData": {
+    "admin.password": "$2a$10$EcnZoWxg9kbsgXEttapvVupjVTGp.SAd0/wxyxH2UOmw53jPtxoJO",
+    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+}}'
+
+```
