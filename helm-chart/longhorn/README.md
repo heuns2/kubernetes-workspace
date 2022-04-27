@@ -9,6 +9,7 @@
 -   백업에서 볼륨 복원
 -   영구 볼륨을 중단하지 않고 Longhorn 업그레이드 가능
 -   version 1.2.4을 기준으로 작성
+-   Delete, Retain Type을 미리 선정하기
 
 ## Installation Requirements
 
