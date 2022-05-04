@@ -195,3 +195,40 @@ spec:
 ![rook-ceph-2][rook-ceph-2]
 
 [rook-ceph-2]:./images/rook-ceph-2.PNG
+
+
+## 2.1 특이 사항
+
+- 각 Node 별로 Device를  사용 할 경우 아래 설정 사용
+
+```
+    nodes:
+    - name: "worker1"
+      devices:
+      - name: "sda"
+      - name: "sdb"
+    - name: "worker2"
+      devices:
+      - name: "sda"
+      - name: "sdb"
+    - name: "worker3"
+      devices:
+      - name: "sdb"
+      - name: "sda"
+```
+
+- 재설치 시 Device를 초기화 하는 방안
+
+
+```
+lsblk -f
+
+yum install gdisk -y
+
+sgdisk --zap-all "/dev/sda"
+dd if=/dev/zero of="/dev/sda" bs=1M count=100 oflag=direct,dsync
+partprobe /dev/sda
+
+rm -rf /dev/ceph-*
+rm -rf /dev/mapper/ceph--*
+```
