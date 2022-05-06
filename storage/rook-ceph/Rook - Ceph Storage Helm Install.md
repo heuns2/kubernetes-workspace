@@ -4,6 +4,7 @@
 - 배포, 부트스트랩, 구성, 프로비저닝, 확장, 업그레이드, 마이그레이션, 재해 복구, 모니터링 및 리소스 관리와 같은 스토리지 관리자의 작업을 자동화 합니다.
 - Rook은 Kubernetes 플랫폼의 기능을 사용하여 각 스토리지 제공 업체(Ceph, Cassandra, NFS)에 대해 Kubernetes Operator를 통해 서비스를 제공 합니다.
 - Ceph는 Blob Storage, Object Storage 및 Shared File System을 위한 확장성이 뛰어난 분산 스토리지 솔루션
+- Provision 관련 Pod는 Ceph 데몬과 동일한 Node에서 실행을 권고, Plugin 관련 Pod는 Storage를 사용 할 모든 Node에 실행을 권고
 
 ### Ceph Prerequisites
 - Ceph Operator는 Kubernetes v1.16 이상을 지원
