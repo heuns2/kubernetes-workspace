@@ -132,6 +132,7 @@ prometheus:
             - key: role
               operator: NotIn
               values:
+              - "router"
               - "controlplane"
               - "worker"
     nodeSelector:
@@ -147,6 +148,7 @@ alertmanager:
             - key: role
               operator: NotIn
               values:
+              - "router"
               - "controlplane"
               - "worker"
     nodeSelector:
@@ -161,9 +163,39 @@ grafana:
           - key: role
             operator: NotIn
             values:
+            - "router"
             - "controlplane"
             - "worker"
+  nodeSelector:
+    role: "infra"
 
+kube-state-metrics:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: role
+            operator: NotIn
+            values:
+            - "router"
+            - "controlplane"
+            - "worker"
+  nodeSelector:
+    role: "infra"
+
+prometheusOperator:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: role
+            operator: NotIn
+            values:
+            - "router"
+            - "controlplane"
+            - "worker"
   nodeSelector:
     role: "infra"
 ```
