@@ -104,17 +104,14 @@ $ ceph pg repair 3.1
 - 장애 발생 node1  Node의 Ceph Device와 Rook 설정 파일 초기화 합니다.
 
 ```
-# node1 Node가 사용 하는 Rook Ceph Device는 sdd, sdc로 진행 하였습니다.
+# node1 Node가 사용 하는 Rook Ceph Device는 sda로 진행 하였습니다.
 
 $ lsblk -f
 
-$ sgdisk --zap-all "/dev/sdd"
-$ dd if=/dev/zero of="/dev/sdd" bs=1M count=100 oflag=direct,dsync
-$ partprobe /dev/sdd
+$ sgdisk --zap-all "/dev/sda"
+$ dd if=/dev/zero of="/dev/sda" bs=1M count=100 oflag=direct,dsync
+$ partprobe /dev/sda
 
-$ sgdisk --zap-all "/dev/sdc"
-$ dd if=/dev/zero of="/dev/sdc" bs=1M count=100 oflag=direct,dsync
-$ partprobe /dev/sdc
 
 # 해당 파일이 존재 할 경우 실행
 $ rm -rf /dev/ceph-*
@@ -133,8 +130,7 @@ $ rm -rf /var/lib/rook
 ```
     - name: "node1"
       devices:
-      - name: "sdc"
-      - name: "sdd"
+      - name: "sda"
 ```
 
 - Helm을 통하여  rook-ceph-cluster 배포 
