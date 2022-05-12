@@ -8,9 +8,9 @@
 - 주요 장애 Log 추출
 
 ```
-2022-05-11 10:13:02.153365 I | clusterdisruption-controller: all "host" failure domains: [node1 node2 jv0597kubeinfradev03]. osd is down in failure domain: "". active node drains: false. pg health: "cluster is not fully clean. PGs: [{StateName:active+clean Count:164} {StateName:active+remapped+backfill_wait Count:9} {StateName:active+undersized+degraded+remapped+backfill_wait Count:3} {StateName:active+undersized+degraded+remapped+backfilling Count:1}]"
+2022-05-11 10:13:02.153365 I | clusterdisruption-controller: all "host" failure domains: [node1 node2 node]. osd is down in failure domain: "". active node drains: false. pg health: "cluster is not fully clean. PGs: [{StateName:active+clean Count:164} {StateName:active+remapped+backfill_wait Count:9} {StateName:active+undersized+degraded+remapped+backfill_wait Count:3} {StateName:active+undersized+degraded+remapped+backfilling Count:1}]"
 2022-05-11 10:13:04.346444 I | op-osd: OSD 2 is not ok-to-stop. will try updating it again later
-2022-05-11 10:13:05.379547 I | clusterdisruption-controller: all "host" failure domains: [node1 node2 jv0597kubeinfradev03]. osd is down in failure domain: "". active node drains: false. pg health: "cluster is not fully clean. PGs: [{StateName:active+clean Count:164} {StateName:active+remapped+backfill_wait Count:9} {StateName:active+undersized+degraded+remapped+backfill_wait Count:3} {StateName:active+undersized+degraded+remapped+backfilling Count:1}]"
+2022-05-11 10:13:05.379547 I | clusterdisruption-controller: all "host" failure domains: [node1 node2 nod3]. osd is down in failure domain: "". active node drains: false. pg health: "cluster is not fully clean. PGs: [{StateName:active+clean Count:164} {StateName:active+remapped+backfill_wait Count:9} {StateName:active+undersized+degraded+remapped+backfill_wait Count:3} {StateName:active+undersized+degraded+remapped+backfilling Count:1}]"
 2022-05-11 10:13:06.620357 I | op-osd: OSD 5 is not ok-to-stop. will try updating it again later
 2022-05-11 10:13:08.096798 I | op-osd: OSD 0 is not ok-to-stop. will try updating it again later
 2022-05-11 10:13:09.567460 I | op-osd: OSD 2 is not ok-to-stop. will try updating it again later
@@ -62,7 +62,7 @@ $ kubectl label node node1 node-type=storage
 
 #### 1.4. Ceph Cluster 조정
 
-- Rancher UI 또는 Edit 명령을 통하여 Rook Ceph Block, File System, Object Store의 replicated 3 -> 1개로 조정
+- Rancher UI 또는 Edit 명령을 통하여 Rook Ceph Block, File System, Object Store의 replicated 3 -> 1개로 조정 (해당 절차는 진행 하였는데, 이 절차 때문에 Downtime이 발생하지 않았나 싶습니다. 생략이 가능 하다면 생략하는게 좋을 것 같습니다.)
 
 ```
 $ kubectl -n rook-ceph edit cephblockpool
