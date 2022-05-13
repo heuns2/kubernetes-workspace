@@ -97,6 +97,14 @@ $ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-sna
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-4.2/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
 ```
 
+- Snapshot Controller 배포가 정상적으로 올라오는지 확인
+
+```
+$ kubectl -n kube-system get pods | grep snapshot
+snapshot-controller-6984fdc566-gf8q5        1/1     Running     0          51s
+snapshot-controller-6984fdc566-kz7cg        1/1     Running     0          51s
+```
+
 - Ceph Block Storage 용 Snapshot Class 생성 (초기 1회 작업)
 
 ```
