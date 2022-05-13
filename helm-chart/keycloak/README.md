@@ -31,13 +31,60 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
       - matchExpressions:
-        - key: node-type
+        - key: role
           operator: NotIn
           values:
           - "router"
           - "controlplane"
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/component
+          operator: In
+          values:
+          - keycloak
+      topologyKey: "kubernetes.io/hostname"
 nodeSelector:
-  node-type: "storage"
+  role: "worker"
+
+postgresql:
+  primary:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: role
+              operator: NotIn
+              values:
+              - "router"
+              - "controlpalne"
+    nodeSelector:
+      role: "worker"
+
+  readReplicas:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: role
+              operator: NotIn
+              values:
+              - "router"
+              - "controlpalne"
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/component
+              operator: In
+              values:
+              - read
+          topologyKey: "kubernetes.io/hostname"
+    nodeSelector:
+      role: "worker"
 ```
 
 - keycloak Helm Install
