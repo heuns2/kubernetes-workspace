@@ -87,6 +87,36 @@ postgresql:
       role: "worker"
 ```
 
+- Extar ENV 파일 구성
+
+
+```
+extraEnv: |
+  - name: JGROUPS_DISCOVERY_PROTOCOL
+    value: kubernetes.KUBE_PING
+  - name: KUBERNETES_NAMESPACE
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: metadata.namespace
+  - name: CACHE_OWNERS_COUNT
+    value: "2"
+  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+    value: "2"
+
+
+rbac:
+  create: true
+  rules:
+    - apiGroups:
+        - ""
+      resources:
+        - pods
+      verbs:
+        - get
+        - list
+```
+
 - keycloak Helm Install
 
 ```
