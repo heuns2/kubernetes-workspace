@@ -302,7 +302,7 @@ $ helm upgrade --install test-mysql bitnami/mysql --set primary.service.type=Nod
 $ mysql -h 10.xx.xxx.xxx -P 30605 -uroot -p"GAEajPg3lZ"
 ```
 
-#### 2.2.1. Filesystem  Blob Storage Snapshot 생성
+#### 2.2.1. Ceph Filesystem Storage Snapshot 생성
 
 - PVC 확인
 
