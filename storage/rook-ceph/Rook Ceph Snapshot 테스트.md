@@ -302,7 +302,7 @@ $ helm upgrade --install test-mysql bitnami/mysql --set primary.service.type=Nod
 $ mysql -h 10.xx.xxx.xxx -P 30605 -uroot -p"GAEajPg3lZ"
 ```
 
-#### 2.1.1. Filesystem  Blob Storage Snapshot 생성
+#### 2.2.1. Filesystem  Blob Storage Snapshot 생성
 
 - PVC 확인
 
@@ -353,7 +353,7 @@ show databases;
 ```
 
 
-#### 2.1.2. Snapshot을 기반으로 PVC 생성
+#### 2.2.2. Snapshot을 기반으로 PVC 생성
 
 - 생성 한 Snapshot을 기반으로 신규 PVC를 생성 합니다.
 
@@ -386,7 +386,7 @@ mysql-pvc-restore   Bound    pvc-e929da45-86ae-40a5-9eb1-f374736f3ea8   10Gi    
 
 ```
 
-#### 2.1.3. Snapshot PVC를 기반으로 Mysql 재 배포 & 데이터 확인
+#### 2.2.3. Snapshot PVC를 기반으로 Mysql 재 배포 & 데이터 확인
 
 - Mysql Helm 삭제 후 Snapshot PVC를 지정하여 재 설치
 
