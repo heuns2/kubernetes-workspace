@@ -8,17 +8,11 @@
 - Kong Gateway Helm Chart는 Gitlab 2.yaml/kong에 존재 합니다.
 - 참고 자료: [Kong Docs](https://docs.konghq.com/gateway/2.7.x/install-and-run/helm/), [Kong Github](https://github.com/Kong/charts/blob/main/charts/kong/README.md)
 - Kong Postgresql DB 이중화 필요
-- - Configmap과 같은 다른 방식으로 구성을 관리하지 않기 위해 Postgresql를 배포
+- Configmap과 같은 다른 방식으로 구성을 관리하지 않기 위해 Postgresql를 배포
 - DB-less 모드는 특히 구성 업데이트에 더 많은 주의가 필요하기 때문에 데이터베이스를 사용하는 것을 선호
 
 ## 1. Postgresql HA Helm Install
 #### 1.1. Helm을 통한 HA Postgresql Install
-
-- HA Postgresql Helm 설치 Directory 이동
-
-```
-$ cd 2.yaml/kong/postgresql-ha
-```
 
 - HA Postgresql Affinity 설정 파일 생성
 
@@ -136,11 +130,6 @@ $ \l
 ## 1. Kong Gateway Helm Install
 
 ### 1.1. namespace 생성
-- Kong helm 설치 디렉토리로 이동
-
-```
-$ cd 2.yaml/kong
-```
 
 - Kong helm 설치 용 namespace 생성
 
