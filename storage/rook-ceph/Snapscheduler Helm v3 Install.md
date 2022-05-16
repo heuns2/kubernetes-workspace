@@ -61,7 +61,8 @@ snapscheduler-5dbf595d86-ll9k6   2/2     Running   0          29s   xx.xxx.xxx.x
 ## 2. Snapscheduler 설정
 
 - Snapscheduler Yaml 파일 설정
-
+- SnapshotClassName은 Snapshot 대상의 PVC가 Block인지 FS Type인지를 확인하고 알맞게 설정이 필요 합니다.
+- claimSelector는 Lables을 기준으로 실행 되며 선택하지 않을 경우 해당 Name Space의 모든 PVC가 동일하게 Backup 됩니다.
 
 ```
 $ cat snapshot-scheduler.yaml
