@@ -129,11 +129,9 @@ spec:
               - key: role
                 operator: NotIn
                 values:
-                - router
                 - controlpalne
-                - worker
       nodeSelector:
-        role: infra
+        role: worker
   selector:
     matchLabels:
       app: event-exporter
