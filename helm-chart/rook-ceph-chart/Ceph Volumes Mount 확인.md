@@ -49,6 +49,6 @@ $ mount -t ceph 10.xxx.x.xxx:6789,10.xxx.x.xxx:6789,10.xxx.x.xxx:6789:/volumes/c
 - Mount 정상화 확인
 
 ```
-$ mount | grep joind
+$ mount | grep ceph-mnt
 10.xxx.x.xxx:6789,10.xxx.x.xxx:6789,10.xxx.x.xxx:6789:/volumes/csi/csi-vol-sadzxcd3da60-11ec-sad4-54713123zas/39e85e78-b2b0-4152-baf8-264c89a2ced4 on /home/ubuntu/ceph-mnt type ceph (rw,relatime,name=admin,secret=<hidden>,acl,wsize=16777216)
 ```
