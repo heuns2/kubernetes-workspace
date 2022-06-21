@@ -65,7 +65,7 @@ data:
 
 ### 2.2. Argocd Application Modify
 
-- sample-app App을 Sample로 각 Event Trigger 시 argo-deploy로 Alert를 전송하는 Sample입니다.
+- sample-app App을 Sample로 각 Event Trigger 시 argo-deploy로 Alert를 전송하는 Sample입니다. 모든 Application 등록 필요
 
 ```
 $ kubectl patch applications.argoproj.io sample-app -n argo -p '{"metadata": {"annotations": {"notifications.argoproj.io/subscribe.on-sync-succeeded.slack":"argo-deploy"}}}' --type merge
