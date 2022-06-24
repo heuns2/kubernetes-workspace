@@ -38,6 +38,7 @@ $ cat docker-daemon.json
 5. ./manage-offline-container-images.sh 스크립트 파일 수정
 - LOCALHOST_NAME을 원격지 Registry IP로 변경
 
+![ks-1][ks-1]
 [ks-1]:./images/ks-1.png
 
 6. 스크립트 실행
@@ -90,7 +91,7 @@ The push refers to repository [**[35.235.112.44:5000/coredns](http://35.235.112.
 ```
   
 7. 확인
-
+![ks-2][ks-2]
 [ks-1]:./images/ks-2.png
 
 8. 스크립트 실행 중 아래 장애 발생 시 Registry를 Kill하여 재기동,
