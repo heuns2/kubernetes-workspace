@@ -40,7 +40,7 @@ $ cat docker-daemon.json
 
 ![ks-1][ks-1]
 
-[ks-1]:./images/ks-1.png
+
 
 6. 스크립트 실행
 
@@ -95,7 +95,6 @@ The push refers to repository [**[35.235.112.44:5000/coredns](http://35.235.112.
 
 ![ks-2][ks-2]
 
-[ks-1]:./images/ks-2.png
 
 8. 스크립트 실행 중 아래 장애 발생 시 Registry를 Kill하여 재기동,
 
@@ -111,3 +110,7 @@ CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
 $ docker rm 337cae140000
 
 ```
+
+
+[ks-1]:./images/ks-1.png
+[ks-2]:./images/ks-2.png
