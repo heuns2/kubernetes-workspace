@@ -165,7 +165,7 @@ resource "local_file" "pem" {
 
 
 
-# kubernetes 정의
+# kubernetes 정의 (kubernetes_config_map.aws_auth)
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   token                  = data.aws_eks_cluster_auth.cluster.token
@@ -189,23 +189,27 @@ module "eks" {
   cluster_version = var.cluster_version
   subnets         = aws_subnet.private[*].id
 
-
   vpc_id = aws_vpc.this.id
 
+  cluster_endpoint_private_access = true
+  cluster_endpoint_public_access  = true
 
-  workers_group_defaults = {
+  attach_worker_cni_policy = true
+  wait_for_cluster_timeout = 600
+
+  node_groups_defaults = {
     root_volume_type = "gp2"
   }
 
-  worker_groups = [
+  node_groups = [
     {
       name                          = "worker-group-1"
-      instance_type                 = "t2.small"
+      instance_type                 = "t2.medium"
       additional_userdata           = "echo test 1234"
       additional_security_group_ids = [module.all_worker_management.security_group_id]
       asg_desired_capacity          = 1
       key_name     = module.key_pair.key_pair_name
-    },
+    }
   ]
 }
 
