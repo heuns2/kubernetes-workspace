@@ -4,7 +4,6 @@ provider "aws" {
 
 locals {
   vpc_name        = "test-vpc"
-  cluster_name    =  var.cluster_name
   cidr            = "10.0.0.0/16"
   public_subnets  = ["10.0.0.0/24", "10.0.1.0/24"]
   private_subnets = ["10.0.10.0/24", "10.0.11.0/24"]
@@ -47,7 +46,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
   tags = {
     Name = "${local.vpc_name}-public-${count.index + 1}"
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"             = "1"
   }
 }
@@ -95,7 +94,7 @@ resource "aws_subnet" "private" {
   availability_zone = local.azs[count.index]
   tags = {
     Name = "${local.vpc_name}-private-${count.index + 1}"
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"             = "1"
   }
 }
@@ -185,9 +184,9 @@ data "aws_eks_cluster_auth" "cluster" {
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "17.24.0"
-  cluster_name    = local.cluster_name
+  cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
-  subnets         = local.private_subnets
+  subnets         = var.private_subnets
 
 
   vpc_id = aws_vpc.this.id
@@ -211,7 +210,7 @@ module "eks" {
 
 # VPC CNI 리소스 설정
 resource "aws_eks_addon" "vpc_cni" {
-  cluster_name = local.cluster_name
+  cluster_name = var.cluster_name
   addon_name = "vpc-cni"
   depends_on = [
     module.eks
@@ -220,7 +219,7 @@ resource "aws_eks_addon" "vpc_cni" {
 
 # Kube Proxy 리소스 설정
 resource "aws_eks_addon" "kube_proxy" {
-  cluster_name = local.cluster_name
+  cluster_name = var.cluster_name
   addon_name = "kube-proxy"
   depends_on = [
     module.eks
@@ -229,7 +228,7 @@ resource "aws_eks_addon" "kube_proxy" {
 
 # Core DNS 리소스 설정
 resource "aws_eks_addon" "coredns" {
-  cluster_name = local.cluster_name
+  cluster_name = var.cluster_name
   addon_name = "coredns"
   depends_on = [
     module.eks
