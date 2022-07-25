@@ -219,7 +219,7 @@ resource "aws_eks_addon" "vpc_cni" {
 
 # Kube Proxy 리소스 설정
 resource "aws_eks_addon" "kube_proxy" {
-  cluster_name = valocalr.cluster_name
+  cluster_name = local.cluster_name
   addon_name = "kube-proxy"
   depends_on = [
     module.eks
@@ -247,7 +247,7 @@ resource "aws_iam_openid_connect_provider" "cluster" {
 }
 
 resource "aws_iam_role" "cluster_autoscaler" {
-  name = "AmazonEKSClusterAutoscalerRole-${var.suffix}"
+  name = "AmazonEKSClusterAutoscalerRole-test"
   assume_role_policy = templatefile("oidc_assume_role_policy.json", {
     OIDC_ARN = aws_iam_openid_connect_provider.cluster.arn, 
     OIDC_URL = replace(aws_iam_openid_connect_provider.cluster.url, "https://", ""), 
