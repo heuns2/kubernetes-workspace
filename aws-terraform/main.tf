@@ -164,14 +164,13 @@ resource "local_file" "pem" {
 }
 
 
-# kubernetes_config_map.aws_auth를 정상 생성 하기 위해 실행
+
+# kubernetes 정의
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   token                  = data.aws_eks_cluster_auth.cluster.token
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
-  load_config_file       = false
 }
-
 
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
@@ -204,7 +203,7 @@ module "eks" {
       instance_type                 = "t2.small"
       additional_userdata           = "echo test 1234"
       additional_security_group_ids = [module.all_worker_management.security_group_id]
-      asg_desired_capacity          = 2
+      asg_desired_capacity          = 1
       key_name     = module.key_pair.key_pair_name
     },
   ]
@@ -371,11 +370,3 @@ module "aws_iam_role" {
 
 }
 
-# cluster_autoscale 정의
-resource "kubernetes_manifest" "install_cluster_autoscaler" {
-  depends_on = [
-    module.eks.node_groups
-  ]
-  count = "${length(local.asg_manifests)}"
-  manifest = local.asg_manifests[count.index]
-}
