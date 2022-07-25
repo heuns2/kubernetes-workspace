@@ -201,16 +201,20 @@ module "eks" {
     root_volume_type = "gp2"
   }
 
-  node_groups = [
-    {
-      name                          = "worker-group-1"
-      instance_type                 = "t2.medium"
-      additional_userdata           = "echo test 1234"
-      additional_security_group_ids = [module.all_worker_management.security_group_id]
-      asg_desired_capacity          = 1
-      key_name     = module.key_pair.key_pair_name
+  node_groups = {
+
+    normal = {
+      name             = "normal"
+      desired_capacity = 1
+      max_capacity     = 2
+      min_capacity     = 1
+      disk_size        = 50
+      key_name         = module.key_pair.key_pair_name
+      instance_types   = ["t2.medium"]
+      worker_additional_security_group_ids = [module.all_worker_management.security_group_id]
+      iam_role_arn = module.aws_iam_role.iam_role_arn
+
     }
-  ]
 }
 
 # VPC CNI 리소스 설정
