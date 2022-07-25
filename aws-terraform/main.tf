@@ -293,13 +293,11 @@ module "iam_policy_autoscaler" {
     ]
 }
   EOF
-  tags = merge(
-    var.default_tags,
-    {
+  tags = {
       PolicyDescription = "EKS Node Autoscaler permissions"
-      "Name" = "pol-${var.suffix}-node-autoscaler"
+      "Name" = "pol-test-node-autoscaler"
     }
-  )
+
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_autoscaler" {
