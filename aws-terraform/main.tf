@@ -186,9 +186,10 @@ module "eks" {
   cluster_name    = local.cluster_name
   cluster_version = "1.20"
   subnets         = local.private_subnets
-  ec2_ssh_key     = module.key_pair.key_name
+
 
   vpc_id = aws_vpc.this.id
+
 
   workers_group_defaults = {
     root_volume_type = "gp2"
@@ -201,6 +202,7 @@ module "eks" {
       additional_userdata           = "echo foo bar"
       additional_security_group_ids = [module.all_worker_management.id]
       asg_desired_capacity          = 2
+      key_name     = module.key_pair.key_name
     },
   ]
 }
