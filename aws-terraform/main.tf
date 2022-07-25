@@ -183,6 +183,7 @@ data "aws_eks_cluster_auth" "cluster" {
 
 # Infra를 EKS 정의
 module "eks" {
+  count = length(local.private_subnets)
   source          = "terraform-aws-modules/eks/aws"
   version         = "17.24.0"
   cluster_name    = var.cluster_name
