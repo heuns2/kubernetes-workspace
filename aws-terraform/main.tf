@@ -140,15 +140,28 @@ module "all_worker_management" {
       cidr_blocks = "0.0.0.0/0"
     }
   ]
-  tags = merge(
-    var.default_tags,
-    {
-      "Name": "all_worker_management"
-    }
-  )
+  tags = { "Name": "all_worker_management" }
+
 }
 
+# Worker Node 접속 Key Pair
+resource "tls_private_key" "this" {
+  algorithm = "RSA"
+}
 
+module "key_pair" {
+  source     = "terraform-aws-modules/key-pair/aws"
+  key_name   = "test-key-pair"
+  public_key = tls_private_key.this.public_key_openssh
+  tags = { "Name" = "test-key-pair" }
+  
+}
+
+resource "local_file" "pem" {
+  filename = "${path.root}/test-key-pair.pem"
+  content = tls_private_key.this.private_key_pem
+  depends_on = [module.key_pair]
+}
 
 
 # kubernetes_config_map.aws_auth를 정상 생성 하기 위해 실행
@@ -173,8 +186,9 @@ module "eks" {
   cluster_name    = local.cluster_name
   cluster_version = "1.20"
   subnets         = local.private_subnets
+  ec2_ssh_key     = module.key_pair.key_name
 
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   workers_group_defaults = {
     root_volume_type = "gp2"
@@ -192,10 +206,8 @@ module "eks" {
 }
 
 
-
-
 resource "aws_eks_addon" "vpc_cni" {
-  cluster_name = var.cluster_name
+  cluster_name = local.cluster_name
   addon_name = "vpc-cni"
   depends_on = [
     module.eks
@@ -203,7 +215,7 @@ resource "aws_eks_addon" "vpc_cni" {
 }
 
 resource "aws_eks_addon" "kube_proxy" {
-  cluster_name = var.cluster_name
+  cluster_name = valocalr.cluster_name
   addon_name = "kube-proxy"
   depends_on = [
     module.eks
@@ -211,13 +223,12 @@ resource "aws_eks_addon" "kube_proxy" {
 }
 
 resource "aws_eks_addon" "coredns" {
-  cluster_name = var.cluster_name
+  cluster_name = local.cluster_name
   addon_name = "coredns"
   depends_on = [
     module.eks
   ]
 }
-
 
 data "tls_certificate" "cluster" {
   url = module.eks.cluster_oidc_issuer_url
@@ -237,13 +248,11 @@ resource "aws_iam_role" "cluster_autoscaler" {
     NAMESPACE = "kube-system", 
     SA_NAME = "cluster-autoscaler"
   })
-  tags = merge(
-    var.default_tags,
-    {
+  tags = {
       "ServiceAccountName"      = "cluster-autoscaler"
       "ServiceAccountNameSpace" = "kube-system"
     }
-  )
+ 
   depends_on = [
     aws_iam_openid_connect_provider.cluster
   ]
@@ -260,7 +269,7 @@ resource "aws_iam_role_policy_attachment" "cluster_autoscaler" {
 module "iam_policy" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
 
-  name = "AmazonEKSNodeACMAccess-${var.suffix}"
+  name = "AmazonEKSNodeACMAccess-test"
   path = "/"
   create_policy = true
   description = "Permissions EKS node to get ACM"
@@ -282,24 +291,21 @@ module "iam_policy" {
     ]
 }
   EOF
-  tags = merge(
-    var.default_tags,
-    {
+  tags = {
       PolicyDescription = "Permissions EKS node to get ACM"
-      "Name" = "pol-${var.suffix}-eks-acm"
+      "Name" = "pol-test-eks-acm"
     }
-  )
 }
 
 module "aws_iam_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
 
   create_role = true
-  role_name = "AmazonEKSNodeGroupRole-${var.suffix}"
+  role_name = "AmazonEKSNodeGroupRole-test"
   role_requires_mfa = false
 
   trusted_role_arns = [
-    "arn:aws:iam::827390046419:root",
+    "arn:aws:iam::000982191218:user/mjs1212",
   ]
 
   trusted_role_services = [
@@ -316,10 +322,8 @@ module "aws_iam_role" {
     module.iam_policy.arn
   ]
 
-  tags = merge(
-    var.default_tags,
-    {
-      "Name" = "rol-${var.suffix}-eks-node"
+  tags = {
+      "Name" = "rol-test-eks-node"
     }
-  )
+
 }
