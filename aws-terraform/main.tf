@@ -87,7 +87,7 @@ resource "aws_route" "private_worldwide" {
 
 # 프라이빗 서브넷을 정의
 resource "aws_subnet" "private" {
-  count = length(local.private_subnets) # 여러개를 정의합니다
+  count = length(local.private_subnets)
 
   vpc_id            = aws_vpc.this.id
   cidr_block        = local.private_subnets[count.index]
@@ -144,7 +144,7 @@ module "all_worker_management" {
 
 }
 
-# Worker Node 접속 Key Pair
+# Worker Node 접속 Key Pair 정의
 resource "tls_private_key" "this" {
   algorithm = "RSA"
 }
@@ -180,6 +180,7 @@ data "aws_eks_cluster_auth" "cluster" {
 }
 
 
+# Infra를 EKS 정의
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "17.24.0"
@@ -199,15 +200,15 @@ module "eks" {
     {
       name                          = "worker-group-1"
       instance_type                 = "t2.small"
-      additional_userdata           = "echo foo bar"
-      additional_security_group_ids = [module.all_worker_management.id]
+      additional_userdata           = "echo test 1234"
+      additional_security_group_ids = [module.all_worker_management.security_group_id]
       asg_desired_capacity          = 2
-      key_name     = module.key_pair.key_name
+      key_name     = module.key_pair.key_pair_name
     },
   ]
 }
 
-
+# VPC CNI 리소스 설정
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = local.cluster_name
   addon_name = "vpc-cni"
@@ -216,6 +217,7 @@ resource "aws_eks_addon" "vpc_cni" {
   ]
 }
 
+# Kube Proxy 리소스 설정
 resource "aws_eks_addon" "kube_proxy" {
   cluster_name = valocalr.cluster_name
   addon_name = "kube-proxy"
@@ -224,6 +226,7 @@ resource "aws_eks_addon" "kube_proxy" {
   ]
 }
 
+# Core DNS 리소스 설정
 resource "aws_eks_addon" "coredns" {
   cluster_name = local.cluster_name
   addon_name = "coredns"
@@ -232,13 +235,14 @@ resource "aws_eks_addon" "coredns" {
   ]
 }
 
+# EKS Cluster 관련 IAM Role 설정
 data "tls_certificate" "cluster" {
   url = module.eks.cluster_oidc_issuer_url
 }
 
 resource "aws_iam_openid_connect_provider" "cluster" {
   client_id_list = ["sts.amazonaws.com"]
-  thumbprint_list = concat([data.tls_certificate.cluster.certificates.0.sha1_fingerprint], var.oidc_thumbprint_list)
+  thumbprint_list = concat([data.tls_certificate.cluster.certificates.0.sha1_fingerprint], [])
   url = module.eks.cluster_oidc_issuer_url
 }
 
