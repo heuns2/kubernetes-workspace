@@ -169,7 +169,9 @@ provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   token                  = data.aws_eks_cluster_auth.cluster.token
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  load_config_file       = false
 }
+
 
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
@@ -242,7 +244,7 @@ data "tls_certificate" "cluster" {
 
 resource "aws_iam_openid_connect_provider" "cluster" {
   client_id_list = ["sts.amazonaws.com"]
-  thumbprint_list = concat([data.tls_certificate.this.certificates[0].sha1_fingerprint], [])
+  thumbprint_list = concat([data.tls_certificate.cluster.certificates[0].sha1_fingerprint], [])
   url = module.eks.identity[0].oidc[0].issuer
 }
 
