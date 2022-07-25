@@ -183,12 +183,11 @@ data "aws_eks_cluster_auth" "cluster" {
 
 # Infra를 EKS 정의
 module "eks" {
-  count = length(local.private_subnets)
   source          = "terraform-aws-modules/eks/aws"
   version         = "17.24.0"
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
-  subnets         = aws_subnet.private[count.index].id
+  subnets         = aws_subnet.private[*].id
 
 
   vpc_id = aws_vpc.this.id
