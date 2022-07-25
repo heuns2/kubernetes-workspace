@@ -186,7 +186,7 @@ module "eks" {
   version         = "17.24.0"
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
-  subnets         = locals.private_subnets
+  subnets         = local.private_subnets
 
 
   vpc_id = aws_vpc.this.id
