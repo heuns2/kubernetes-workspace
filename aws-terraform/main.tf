@@ -239,13 +239,13 @@ resource "aws_eks_addon" "coredns" {
 
 # EKS Cluster 관련 IAM Role 설정
 data "tls_certificate" "cluster" {
-  url = module.eks.identity[0].oidc[0].issuer
+  url = module.eks.cluster_oidc_issuer_url
 }
 
 resource "aws_iam_openid_connect_provider" "cluster" {
   client_id_list = ["sts.amazonaws.com"]
-  thumbprint_list = concat([data.tls_certificate.cluster.certificates[0].sha1_fingerprint], [])
-  url = module.eks.identity[0].oidc[0].issuer
+  thumbprint_list = concat([data.tls_certificate.cluster.certificates.0.sha1_fingerprint], [])
+  url = module.eks.cluster_oidc_issuer_url
 }
 
 resource "aws_iam_role" "cluster_autoscaler" {
