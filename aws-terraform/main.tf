@@ -3,12 +3,13 @@ provider "aws" {
 }
 
 locals {
-  vpc_name        = "test-pvc"
-  cluster_name    = "test-cluster"
+  vpc_name        = "test-vpc"
+  cluster_name    =  var.cluster_name
   cidr            = "10.0.0.0/16"
   public_subnets  = ["10.0.0.0/24", "10.0.1.0/24"]
   private_subnets = ["10.0.10.0/24", "10.0.11.0/24"]
   azs             = ["us-east-2a", "us-east-2c"]
+  asg_manifests = [for data in split("---", replace("${file("cluster_autoscaler.yaml")}", "<CLUSTER_NAME>", "${var.cluster_name}")): yamldecode(data)]
 }
 
 # VPC를 생성
@@ -185,7 +186,7 @@ module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "17.24.0"
   cluster_name    = local.cluster_name
-  cluster_version = "1.20"
+  cluster_version = var.cluster_version
   subnets         = local.private_subnets
 
 
@@ -264,6 +265,43 @@ resource "aws_iam_role" "cluster_autoscaler" {
   ]
 }
 
+module "iam_policy_autoscaler" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+
+  name = "AmazonEKSClusterAutoscalerPolicy-test"
+  path = "/"
+  create_policy = true
+  description = "Grant autoscaling permissions to EKS node autoscaler"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeTags",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "ec2:DescribeLaunchTemplateVersions"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        }
+    ]
+}
+  EOF
+  tags = merge(
+    var.default_tags,
+    {
+      PolicyDescription = "EKS Node Autoscaler permissions"
+      "Name" = "pol-${var.suffix}-node-autoscaler"
+    }
+  )
+}
+
 resource "aws_iam_role_policy_attachment" "cluster_autoscaler" {
   role = aws_iam_role.cluster_autoscaler.name
   policy_arn = module.iam_policy_autoscaler.arn
@@ -332,4 +370,13 @@ module "aws_iam_role" {
       "Name" = "rol-test-eks-node"
     }
 
+}
+
+# cluster_autoscale 정의
+resource "kubernetes_manifest" "install_cluster_autoscaler" {
+  depends_on = [
+    module.eks.node_groups
+  ]
+  count = "${length(local.asg_manifests)}"
+  manifest = local.asg_manifests[count.index]
 }
