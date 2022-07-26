@@ -240,7 +240,7 @@ resource "aws_s3_bucket" "bucket" {
   bucket = "test-bucket"
 
   tags = {
-    Name        = "test-bucket"
+    Name = "test-bucket"
   }
 }
 
@@ -251,14 +251,23 @@ resource "aws_s3_bucket_acl" "bucket" {
 
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
   bucket = aws_s3_bucket.bucket.id
-  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::000982191218:user/mjs1212"
+        ]
+      },
+      "Resource": "arn:aws:s3:::test-bucket/*"
+    }
+  ]
 }
-
-resource "aws_s3_bucket_versioning" "bucket" {
-  bucket = aws_s3_bucket.bucket.id
-  versioning_configuration {
-    status = "Enabled" 
-  }
+EOF
 }
 
 # 수명 주기 설정
