@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: leedh-test-deployment
+  labels:
+    app: leedh-test-app
+    env: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: leedh-test-app
+  template:
+    metadata:
+      labels:
+        app: leedh-test-app
+    spec:
+      containers:
+      - name: leedh-test-app
+        image: harbor.eks.leedh.cloud/cicd/test-app:latest
+        ports:
+        - containerPort: 8080
+        imagePullSecrets:
+        - name: regcred
+  strategy:
+    blueGreen: 
+      activeService: rollout-bluegreen-new
+      previewService: rollout-bluegreen-old
+      autoPromotionEnabled: false

@@ -1,0 +1,99 @@
+sudo apt-get install -y adduser libfontconfig1
+wget https://dl.grafana.com/oss/release/grafana_7.3.4_amd64.deb
+sudo dpkg -i grafana_7.3.4_amd64.deb
+
+sudo service grafana-server status
+sudo service grafana-server restart
+
+
+sudo apt-get install ruby
+
+
+uaac target uaa.sys.test.mzdemo.net
+
+uaac token client get admin –s 
+
+uaac client add grafana \
+--name grafana \
+--secret grafana1234 \
+--authorized_grant_types authorization_code,refresh_token \
+--authorities uaa.none \
+--scope openid,uaa.resource,doppler.firehose,logs.admin,cloud_controller.read \
+--redirect_uri http://3.112.20.177:3000/login/generic_oauth
+
+
+name = UAA
+enabled = true
+allow_sign_up = true
+client_id = grafana
+client_secret = grafana1234
+scopes = openid uaa.resource doppler.firehose logs.admin cloud_controller.read
+auth_url = https://login.sys.test.mzdemo.net/oauth/authorize 
+token_url = https://login.sys.test.mzdemo.net/oauth/token 
+api_url = https://login.sys.test.mzdemo.net/userinfo 
+
+
+
+http_port = 3000
+root_url = http://3.112.20.177:3000
+
+https://metric-store.sys.test.mzdemo.net
+
+
+Query: system_mem_percent{job="diego_cell",source_id="bosh-system-metrics-forwarder", unit="Percent"}
+
+
+
+https://github.com/cloudfoundry/log-cache
+
+# 전체 metrics 조회
+curl -G "https://log-cache.sys.test.mzdemo.net/api/v1/meta"  -H "Authorization: $(cf oauth-token)" | jq
+
+# 상세 metrics 조회
+curl -G "https://log-cache.sys.test.mzdemo.net/api/v1/read/gorouter" -H "Authorization: $(cf oauth-token)"  | jq
+
+# promsql 조합
+curl -G "https://log-cache.sys.test.mzdemo.net/api/v1/query" \
+--data-urlencode 'query=file_descriptors{source_id="gorouter",job="router"}' -H "Authorization: $(cf oauth-token)" | jq
+
+
+curl -G "https://log-cache.sys.test.mzdemo.net/api/v1/read/00377a4a-af87-40f0-beed-008a13e00e51" -H "Authorization: $(cf oauth-token)"  | jq
+
+
+curl -G "https://log-cache.sys.test.mzdemo.net/api/v1/query" \
+--data-urlencode 'query=cpu{source_id="00377a4a-af87-40f0-beed-008a13e00e51",job="diego_cell"}' -H "Authorization: $(cf oauth-token)" | jq
+
+
+file_descriptors{source_id="gorouter",job="router"} >> granfa dashboard에 추가
+
+
+sum(jvm_memory_used_bytes{ source_id="00377a4a-af87-40f0-beed-008a13e00e51", area="heap"})*100/sum(jvm_memory_max_bytes{ source_id="00377a4a-af87-40f0-beed-008a13e00e51", area="heap"})
+sum(jvm_memory_used_bytes{ source_id="00377a4a-af87-40f0-beed-008a13e00e51", area="heap"})*100/sum(jvm_memory_max_bytes{ source_id="00377a4a-af87-40f0-beed-008a13e00e51", area="heap"})
+sum(jvm_memory_used_bytes{ source_id="00377a4a-af87-40f0-beed-008a13e00e51", area="nonheap"})*100/sum(jvm_memory_max_bytes{ source_id="00377a4a-af87-40f0-beed-008a13e00e51", area="nonheap"})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

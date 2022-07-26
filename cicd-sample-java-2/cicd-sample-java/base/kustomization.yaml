@@ -1,0 +1,3 @@
+resources:
+- deployment-bluegreen.yaml
+- service-bluegreen.yaml

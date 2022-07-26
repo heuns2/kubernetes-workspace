@@ -4,7 +4,7 @@ module "ec2_instance" {
 
   name = "ec2-test-bastion"
   ami = "ami-0960ab670c8bb45f3"
-  instance_type = "t2.medium"
+  instance_type = "t2.small"
   vpc_security_group_ids = [module.all_worker_management.security_group_id]
   subnet_id = aws_subnet.public[0].id
 
