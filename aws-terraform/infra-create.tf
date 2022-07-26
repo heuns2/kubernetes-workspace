@@ -162,3 +162,12 @@ resource "local_file" "pem" {
   content = tls_private_key.this.private_key_pem
   depends_on = [module.key_pair]
 }
+
+# Bastion VM Elastic IP 정의
+resource "aws_eip" "bastion_2a" {
+  instance = module.ec2_instance.id
+  vpc = true
+  tags = {
+      "Name" = "eip-test-bastion"
+    }
+}
