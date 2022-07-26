@@ -49,7 +49,9 @@ module "eks" {
       instance_types   = ["t2.medium"]
       
       iam_role_arn = module.aws_iam_role.iam_role_arn
-      
+      tags = {
+          "Name" = "eks-test-node"
+      }
     }
   }
 }

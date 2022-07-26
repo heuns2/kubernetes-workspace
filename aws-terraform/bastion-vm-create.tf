@@ -9,7 +9,7 @@ module "ec2_instance" {
 
   associate_public_ip_address = true
   availability_zone = "us-east-2a"
-  key_name = module.key_pair.key_name
+  key_name = module.key_pair.key_pair_name
   tags = {
       "Name" = "ec2-test-bastion"
     }
