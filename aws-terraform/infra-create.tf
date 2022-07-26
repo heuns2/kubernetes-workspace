@@ -230,3 +230,68 @@ resource "aws_efs_mount_target" "private-2" {
   file_system_id = aws_efs_file_system.filesystem.id
   subnet_id      = aws_subnet.private[1].id
 }
+
+
+# S3 생성 리소스 정의
+resource "aws_s3_bucket" "bucket" {
+  bucket = "test-bucket"
+
+  tags = {
+    Name        = "test-bucket"
+  }
+}
+
+resource "aws_s3_bucket_acl" "bucket" {
+  bucket = aws_s3_bucket.bucket.id
+  acl = "public-read-write"
+}
+
+resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
+  bucket = aws_s3_bucket.bucket.id
+  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+}
+
+resource "aws_s3_bucket_versioning" "bucket" {
+  bucket = aws_s3_bucket.bucket.id
+  versioning_configuration {
+    status = "Enabled" 
+  }
+}
+
+# 수명 주기 설정
+resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
+  bucket = aws_s3_bucket.bucket.id
+
+  rule {
+    id = "bucket"
+
+    expiration {
+      days = 30
+    }
+
+    filter {
+      and {
+        prefix = "/"
+
+        tags = {
+          rule      = "bucket"
+          autoclean = "true"
+        }
+      }
+    }
+
+    status = "Enabled"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    transition {
+      days          = 60
+      storage_class = "GLACIER"
+    }
+  }
+}
+
+

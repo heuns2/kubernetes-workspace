@@ -1,9 +1,0 @@
-bases:
-- ../../base
-patchesStrategicMerge:
-  - deployment-patch.yaml
-  - service-patch.yaml
-images:
-- name: harbor.eks.leedh.cloud/cicd/test-app
-  newTag: "1"
-
