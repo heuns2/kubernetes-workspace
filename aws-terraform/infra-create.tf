@@ -234,6 +234,9 @@ resource "aws_efs_mount_target" "private-2" {
 
 # S3 생성 리소스 정의
 resource "aws_s3_bucket" "bucket" {
+  depends_on = [
+    module.eks.node_groups
+  ]
   bucket = "test-bucket"
 
   tags = {
@@ -294,4 +297,37 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
   }
 }
 
+# Elastics Container Regristry 정의
+resource "aws_ecr_repository" "test-repository" {
+  depends_on = [
+    module.eks.node_groups
+  ]
+  name                 = "test-repo"
+  image_tag_mutability = "IMMUTABLE"
+}
 
+resource "aws_ecr_repository_policy" "test-repo-policy" {
+  repository = aws_ecr_repository.test-repository.name
+  policy     = <<EOF
+  {
+    "Version": "2008-10-17",
+    "Statement": [
+      {
+        "Sid": "adds full ecr access to the demo repository",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:BatchGetImage",
+          "ecr:CompleteLayerUpload",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:GetLifecyclePolicy",
+          "ecr:InitiateLayerUpload",
+          "ecr:PutImage",
+          "ecr:UploadLayerPart"
+        ]
+      }
+    ]
+  }
+  EOF
+}
