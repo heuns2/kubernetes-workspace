@@ -177,7 +177,9 @@ resource "aws_efs_file_system" "filesystem" {
   lifecycle_policy {
     transition_to_ia = "AFTER_30_DAYS"
   }
-
+  depends_on = [
+    module.eks.node_groups
+  ]
   tags = {
     Name = "test-efs"
   }
