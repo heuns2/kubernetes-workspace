@@ -17,26 +17,26 @@ resource "aws_vpc" "this" {
   tags       = { Name = local.vpc_name }
 }
 
-# 퍼플릭 서브넷에 연결할 인터넷 게이트웨이를 생성
+# Public Subnet에 연결할 인터넷 게이트웨이를 생성
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
   tags   = { Name = "${local.vpc_name}-igw" }
 }
 
-# 퍼플릭 서브넷에 적용할 라우팅 테이블 생성
+# Public Subnet에 적용할 라우팅 테이블 생성
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
   tags   = { Name = "${local.vpc_name}-public" }
 }
 
-# 퍼플릭 서브넷 인터넷 게이트웨이 설정
+# Public Subnet 인터넷 게이트웨이 설정
 resource "aws_route" "public" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.this.id
 }
 
-# 퍼플릭 서브넷을 정의
+# Public Subnet을 정의
 resource "aws_subnet" "public" {
   count = length(local.public_subnets)
 
@@ -51,7 +51,7 @@ resource "aws_subnet" "public" {
   }
 }
 
-# 퍼플릭 서브넷을 라우팅 테이블에 연결
+# Public Subnet을 라우팅 테이블에 연결
 resource "aws_route_table_association" "public" {
   count = length(local.public_subnets)
 
@@ -59,33 +59,33 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-# NAT 게이트웨이 용 Elastics IP 생성
+# NAT Gateway 용 Elastics IP 생성
 resource "aws_eip" "nat_gateway" {
   vpc  = true
   tags = { Name = "${local.vpc_name}-natgw" }
 }
 
-# 프라이빗 서브넷에서 인터넷 접속시 사용할 NAT 게이트웨이
+# Private Subnet에서 인터넷 접속시 사용할 NAT Gateway 정의
 resource "aws_nat_gateway" "this" {
   allocation_id = aws_eip.nat_gateway.id
   subnet_id     = aws_subnet.public[0].id
   tags          = { Name = "${local.vpc_name}-natgw" }
 }
 
-# 프라이빗 서브넷에 적용할 라우팅 테이블
+# Private Subnet에 적용할 Routing Table 정의
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
   tags   = { Name = "${local.vpc_name}-private" }
 }
 
-# 프라이빗 서브넷, NAT 게이트웨이 설정
+# Private Subnet, NAT Gateway 설정
 resource "aws_route" "private_worldwide" {
   route_table_id         = aws_route_table.private.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.this.id
 }
 
-# 프라이빗 서브넷을 정의
+# Private Subnet을 정의
 resource "aws_subnet" "private" {
   count = length(local.private_subnets)
 
@@ -99,7 +99,7 @@ resource "aws_subnet" "private" {
   }
 }
 
-# 프라이빗 서브넷을 라우팅 테이블에 연결
+# Private Subnet을 라우팅 테이블에 연결
 resource "aws_route_table_association" "private" {
   count = length(local.private_subnets)
 
