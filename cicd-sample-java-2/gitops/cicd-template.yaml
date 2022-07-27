@@ -7,6 +7,9 @@ spec:
   - name: docker-sock
     hostPath:
       path: "/var/run/docker.sock"
+  - name: task-pv-storage
+    persistentVolumeClaim:
+      claimName: maven-pv-claim
   containers:
   - name: maven
     image: maven:alpine
@@ -18,6 +21,9 @@ spec:
     securityContext:
       privileged: true
       runAsUser: 0
+    volumeMounts:
+      - mountPath: "/root/.m2/repository"
+        name: maven-pv-storage
     env:
     - name: HARBOR_ID
       valueFrom:
