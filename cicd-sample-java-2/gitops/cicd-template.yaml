@@ -7,9 +7,9 @@ spec:
   - name: docker-sock
     hostPath:
       path: "/var/run/docker.sock"
-  - name: task-pv-storage
+  - name: maven-pv-storage
     persistentVolumeClaim:
-      claimName: maven-pv-claim
+      claimName: maven-pvc
   containers:
   - name: maven
     image: maven:alpine
