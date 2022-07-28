@@ -46,7 +46,7 @@ module "eks" {
       min_capacity     = 1
       disk_size        = 50
       key_name         = module.key_pair.key_pair_name
-      instance_types   = ["t2.medium"]
+      instance_types   = ["t2.large"]
       
       iam_role_arn = module.aws_iam_role.iam_role_arn
       tags = {

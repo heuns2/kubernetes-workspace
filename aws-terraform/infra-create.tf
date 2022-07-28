@@ -237,10 +237,10 @@ resource "aws_s3_bucket" "bucket" {
   depends_on = [
     module.eks.node_groups
   ]
-  bucket = "test-bucket"
+  bucket = "bucket-terraform-kamo"
 
   tags = {
-    Name = "test-bucket"
+    Name = "bucket-terraform-kamo"
   }
 }
 
@@ -251,23 +251,26 @@ resource "aws_s3_bucket_acl" "bucket" {
 
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
   bucket = aws_s3_bucket.bucket.id
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "s3:*",
-      "Principal": {
-        "AWS": [
-          "arn:aws:iam::000982191218:user/mjs1212"
-        ]
-      },
-      "Resource": "arn:aws:s3:::test-bucket/*"
-    }
-  ]
+  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
 }
-EOF
+
+data "aws_iam_policy_document" "allow_access_from_another_account" {
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = ["000982191218"]
+    }
+
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket",
+    ]
+
+    resources = [
+      aws_s3_bucket.bucket.arn,
+      "${aws_s3_bucket.bucket.arn}/*",
+    ]
+  }
 }
 
 # 수명 주기 설정
@@ -278,7 +281,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
     id = "bucket"
 
     expiration {
-      days = 30
+      days = 180
     }
 
     filter {
