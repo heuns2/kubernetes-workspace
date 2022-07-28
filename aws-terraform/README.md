@@ -13,4 +13,4 @@
 
 ![infra-architecture][infra-architecture]
 
-[infra-architecture]:./images/infra-architecture.png
+[infra-architecture]:./infra-architecture.png
