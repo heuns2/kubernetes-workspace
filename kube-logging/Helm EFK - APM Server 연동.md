@@ -1,7 +1,7 @@
 # Helm EFK - APM Server 연동
 -  본 가이드는 Helm v3을 통하여 기존 EFK 시스템에 APM Server를 통합 연동 하고 K8S Spring Boot Java Sample App에 Elastic APM Agent를 배치하여 Kibana UI에서 확인 할 수 있는 방안에 대해 설명 합니다.
 - Spring Boot Java Sample App을 설정하는 방안에 대해서는  Dockerfile을 통하여 생성하는 방안과 ElasticApmAttacher Class를 생성하여 설정하는 방안을 설명 합니다.
-- Elastic Search, Kibana, APM Server 모두 v7.10.2를 사용합니다.
+- Elastic Search, Kibana, APM Server 모두 v7.10.2를 사용합니다.  
 
 ## 1.  APM Server 설치
 
